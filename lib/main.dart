@@ -1,3 +1,4 @@
+import 'package:chatapp/componenets/custom%20text%20field.dart';
 import 'package:flutter/material.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -11,43 +12,83 @@ void main() async {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  String? email;
-  String? pass;
+
+  bool secure = true;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
+        backgroundColor: const Color.fromRGBO(255, 255, 255, 1.0),
         body: SafeArea(
-            child: Column(
+            child: ListView(
           children: [
-            TextField(
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
+              child: SizedBox(
+                height: 150,
+                width: 150,
+                child: Image.asset('assets/chat.gif'),
+              ),
+            ),
+            customTextField(
+              labelText: 'Email',
+              hintText: 'enter email here',
+              icon: const Icon(Icons.alternate_email),
               controller: emailController,
-              onChanged: (data) {
-                email = data;
-              },
+              obscure: false,
             ),
-            TextField(
+            customTextField(
+              labelText: 'Password',
+              hintText: 'enter password here',
+              icon: IconButton(
+                onPressed: () {
+                  setState(() {
+                    secure = !secure;
+                  });
+                },
+                icon: Icon(
+                  secure ? Icons.visibility : Icons.visibility_off_rounded,
+                ),
+              ),
               controller: passwordController,
-              onChanged: (data) {
-                pass = data;
-              },
+              obscure: secure,
             ),
-            TextButton(
-              child: const Text('add'),
-              onPressed: () async {
-                var auth = FirebaseAuth.instance;
-                UserCredential userCredential =
-                    await auth.createUserWithEmailAndPassword(
-                        email: email!, password: pass!);
-                print(userCredential.user!.email);
-              },
+            Row(
+              children: [
+
+              ],
+            ),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 10),
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all(
+                    const EdgeInsets.symmetric(vertical: 15),
+                  ),
+                ),
+                child: const Text('Sign up'),
+                onPressed: () async {
+                  UserCredential userCredential = await FirebaseAuth.instance
+                      .createUserWithEmailAndPassword(
+                    email: emailController.text,
+                    password: passwordController.text,
+                  );
+                  print(userCredential.toString());
+                },
+              ),
             ),
           ],
-        )),
+        ),),
       ),
     );
   }
