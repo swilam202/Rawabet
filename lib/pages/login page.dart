@@ -154,8 +154,7 @@ class LoginPage extends StatelessWidget {
             await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.text,
           password: passwordController.text,
-        );
-        Get.to(HomePage());
+        );Get.to(HomePage());
       } else
         return;
     } on FirebaseAuthException catch (e) {
