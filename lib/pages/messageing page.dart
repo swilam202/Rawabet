@@ -1,4 +1,5 @@
 import 'package:chatapp/componenets/chat%20bubble.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Texting extends StatelessWidget {
@@ -24,6 +25,10 @@ class Texting extends StatelessWidget {
     'kdajfaiufd akdfkdsfn aieurjkfds,.anf ahdfjaioudj ahdsfaihdsoif alkdfiaufeidsk akjfheuyh',
     'kdajfaiufd akdfkdsfn aieurjkfds,.anf ahdfjaioudj ahdsfaihdsoif alkdfiaufeidsk akjfheuyh',
   ];
+
+  CollectionReference messages = FirebaseFirestore.instance.collection('messages');
+  TextEditingController controller = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +58,11 @@ class Texting extends StatelessWidget {
               ),
               Expanded(
                 child: TextField(
+                  controller: controller,
+                  onSubmitted: (data){
+                    messages.add({'message':data});
+                    controller.clear();
+                  },
                   decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
@@ -68,7 +78,7 @@ class Texting extends StatelessWidget {
                           Icons.send,
                           color: Color.fromRGBO(67, 97, 255, 1.0),
                         ),
-                      )),
+                      ),),
                 ),
               ),
               Padding(
