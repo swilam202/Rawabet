@@ -7,12 +7,13 @@ Widget bubble(String text) {
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Color.fromRGBO(0, 166, 183, 1.0),
-            Color.fromRGBO(52, 143, 217, 1.0),
-            Color.fromRGBO(94, 128, 213, 1.0),
-            Color.fromRGBO(40, 88, 215, 1.0),
-            Color.fromRGBO(73, 17, 218, 1.0),
+
+            Color.fromRGBO(130, 203, 250, 1.0),
+            Color.fromRGBO(23, 121, 235, 1.0),
+
           ],
+          begin: Alignment.bottomCenter,
+          end: Alignment.topCenter,
         ),
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(20),

@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import '../componenets/custom text field.dart';
 import '../componenets/snack bar.dart';
 import 'home page.dart';
+import 'messageing page.dart';
 import 'terms of use.dart';
 
 class LoginPage extends StatelessWidget {
@@ -154,7 +155,7 @@ class LoginPage extends StatelessWidget {
             await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.text,
           password: passwordController.text,
-        );Get.to(HomePage());
+        );Get.to(Texting());
       } else
         return;
     } on FirebaseAuthException catch (e) {
@@ -173,7 +174,7 @@ class LoginPage extends StatelessWidget {
         email: emailController.text,
         password: passwordController.text,
       );
-      Get.to(HomePage());
+      Get.to(Texting());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         showSnack('Warning', 'No user found for that email.');
