@@ -5,39 +5,20 @@ import 'package:flutter/material.dart';
 import '../models/message model.dart';
 
 class Texting extends StatelessWidget {
-  List<String> list = [
-    'adfa',
-    'daf',
-    'adf',
-    'afd',
-    'adf',
-    'adfa',
-    'kdajfaiufd akdfkdsfn aieurjkfds,.anf ahdfjaioudj ahdsfaihdsoif alkdfiaufeidsk akjfheuyh',
-    'kdajfaiufd akdfkdsfn aieurjkfds,.anf ahdfjaioudj ahdsfaihdsoif alkdfiaufeidsk akjfheuyh',
-    'kdajfaiufd akdfkdsfn aieurjkfds,.anf ahdfjaioudj ahdsfaihdsoif alkdfiaufeidsk akjfheuyh',
-    'kdajfaiufd akdfkdsfn aieurjkfds,.anf ahdfjaioudj ahdsfaihdsoif alkdfiaufeidsk akjfheuyh',
-    'kdajfaiufd akdfkdsfn aieurjkfds,.anf ahdfjaioudj ahdsfaihdsoif alkdfiaufeidsk akjfheuyh',
-    'kdajfaiufd akdfkdsfn aieurjkfds,.anf ahdfjaioudj ahdsfaihdsoif alkdfiaufeidsk akjfheuyh',
-    'kdajfaiufd akdfkdsfn aieurjkfds,.anf ahdfjaioudj ahdsfaihdsoif alkdfiaufeidsk akjfheuyh',
-    'kdajfaiufd akdfkdsfn aieurjkfds,.anf ahdfjaioudj ahdsfaihdsoif alkdfiaufeidsk akjfheuyh',
-    'kdajfaiufd akdfkdsfn aieurjkfds,.anf ahdfjaioudj ahdsfaihdsoif alkdfiaufeidsk akjfheuyh',
-    'kdajfaiufd akdfkdsfn aieurjkfds,.anf ahdfjaioudj ahdsfaihdsoif alkdfiaufeidsk akjfheuyh',
-    'kdajfaiufd akdfkdsfn aieurjkfds,.anf ahdfjaioudj ahdsfaihdsoif alkdfiaufeidsk akjfheuyh',
-    'kdajfaiufd akdfkdsfn aieurjkfds,.anf ahdfjaioudj ahdsfaihdsoif alkdfiaufeidsk akjfheuyh',
-    'kdajfaiufd akdfkdsfn aieurjkfds,.anf ahdfjaioudj ahdsfaihdsoif alkdfiaufeidsk akjfheuyh',
-    'kdajfaiufd akdfkdsfn aieurjkfds,.anf ahdfjaioudj ahdsfaihdsoif alkdfiaufeidsk akjfheuyh',
-  ];
+
 
   CollectionReference messages = FirebaseFirestore.instance.collection('messages');
   TextEditingController controller = TextEditingController();
-
+  final scrollController = ScrollController();
+  
 
   @override
   Widget build(BuildContext context) {
+    String args = ModalRoute.of(context)!.settings.arguments.toString();
     return Scaffold(
       appBar: AppBar(),
       body: StreamBuilder(
-        stream: messages.snapshots(),
+        stream: messages.orderBy('createdBy',descending: true).snapshots(),
         builder: (context,snapshot){
           return  Column(
             children: [
@@ -45,10 +26,11 @@ class Texting extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ListView.builder(
+                    reverse: true,
                     shrinkWrap: true,
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) {
-                      return bubble(snapshot.data!.docs[index]['message']);
+                      return (snapshot.data!.docs[index]['id'] == args )?bubble(snapshot.data!.docs[index]['message']):bubble2(snapshot.data!.docs[index]['message']);
                     },
                   ),
                 ),
@@ -66,10 +48,10 @@ class Texting extends StatelessWidget {
                       controller: controller,
                       onSubmitted: (data){
                         if(data.isNotEmpty){
-                          messages.add({'message':data});
+                          messages.add({'message':data,'createdBy':DateTime.now(),'id':args},);
                           controller.clear();
+                          scrollController.animateTo(0, duration: const Duration(milliseconds: 1500), curve: Curves.bounceInOut);
                         }
-
                       },
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -96,7 +78,7 @@ class Texting extends StatelessWidget {
                       backgroundColor: const Color.fromRGBO(67, 97, 255, 1.0),
                       child: const Icon(Icons.mic),
                     ),
-                  )
+                  ),
                 ],
               ),
             ],

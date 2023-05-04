@@ -18,6 +18,46 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    signupFunction() async {
+      try {
+        if (key.currentState!.validate() &&
+            controller.policiesCheck.value == true) {
+          UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: emailController.text,
+            password: passwordController.text,
+          );
+          Navigator.pushNamed(context, 'texting',arguments: emailController.text);
+        } else
+          return;
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'email-already-in-use') {
+          showSnack('Warning', 'The account already exists for that email.');
+        }
+      } catch (e) {
+        showSnack('Warning', e.toString());
+      }
+    }
+
+    loginFunction() async {
+      try {
+        UserCredential userCredential =
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        );
+        Navigator.pushNamed(context, 'texting',arguments: emailController.text);
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'user-not-found') {
+          showSnack('Warning', 'No user found for that email.');
+        } else if (e.code == 'wrong-password') {
+          showSnack('Warning', 'Wrong password provided for that user.');
+        }
+      }
+    }
+
+
     return Scaffold(
       backgroundColor: const Color.fromRGBO(255, 255, 255, 1.0),
       body: Obx(
@@ -36,38 +76,40 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 customTextField(
-                    labelText: 'Email',
-                    hintText: 'enter email here',
-                    icon: const Icon(Icons.alternate_email),
-                    controller: emailController,
-                    obscure: false,
-                    valid: (data) {
-                      if (!data!.contains('@'))
-                        return 'invalid email';
-                      else
-                        return null;
-                    }),
+                  labelText: 'Email',
+                  hintText: 'enter email here',
+                  icon: const Icon(Icons.alternate_email),
+                  controller: emailController,
+                  obscure: false,
+                  valid: (data) {
+                    if (!data!.contains('@'))
+                      return 'invalid email';
+                    else
+                      return null;
+                  },
+                ),
                 customTextField(
-                    labelText: 'Password',
-                    hintText: 'enter password here',
-                    icon: IconButton(
-                      onPressed: () {
-                        controller.secure.value = !controller.secure.value;
-                      },
-                      icon: Icon(
-                        controller.secure.value
-                            ? Icons.visibility
-                            : Icons.visibility_off_rounded,
-                      ),
+                  labelText: 'Password',
+                  hintText: 'enter password here',
+                  icon: IconButton(
+                    onPressed: () {
+                      controller.secure.value = !controller.secure.value;
+                    },
+                    icon: Icon(
+                      controller.secure.value
+                          ? Icons.visibility
+                          : Icons.visibility_off_rounded,
                     ),
-                    controller: passwordController,
-                    obscure: controller.secure.value,
-                    valid: (data) {
-                      if (data!.length <= 6)
-                        return 'password is too short';
-                      else
-                        return null;
-                    }),
+                  ),
+                  controller: passwordController,
+                  obscure: controller.secure.value,
+                  valid: (data) {
+                    if (data!.length <= 6)
+                      return 'password is too short';
+                    else
+                      return null;
+                  },
+                ),
                 controller.isLogin.value == false
                     ? customTextField(
                         labelText: 'Rewrite password',
@@ -89,7 +131,8 @@ class LoginPage extends StatelessWidget {
                             return 'password does not match';
                           else
                             return null;
-                        })
+                        },
+                      )
                     : const SizedBox(),
                 controller.isLogin.value == false
                     ? Row(
@@ -99,15 +142,16 @@ class LoginPage extends StatelessWidget {
                               onChanged: (val) =>
                                   controller.policiesCheck.value = val!),
                           GestureDetector(
-                              onTap: () => Get.to(TermsOfUse()),
-                              child: const Text(
-                                'Agree to terms of use',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 20,
-                                  color: Colors.deepPurpleAccent,
-                                ),
-                              )),
+                            onTap: () => Get.to(TermsOfUse()),
+                            child: const Text(
+                              'Agree to terms of use',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 20,
+                                color: Colors.deepPurpleAccent,
+                              ),
+                            ),
+                          ),
                         ],
                       )
                     : const SizedBox(),
@@ -147,40 +191,5 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  signupFunction() async {
-    try {
-      if (key.currentState!.validate() &&
-          controller.policiesCheck.value == true) {
-        UserCredential userCredential =
-            await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: emailController.text,
-          password: passwordController.text,
-        );Get.to(Texting());
-      } else
-        return;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'email-already-in-use') {
-        showSnack('Warning', 'The account already exists for that email.');
-      }
-    } catch (e) {
-      showSnack('Warning', e.toString());
-    }
-  }
 
-  loginFunction() async {
-    try {
-      UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text,
-        password: passwordController.text,
-      );
-      Get.to(Texting());
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        showSnack('Warning', 'No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        showSnack('Warning', 'Wrong password provided for that user.');
-      }
-    }
-  }
 }
