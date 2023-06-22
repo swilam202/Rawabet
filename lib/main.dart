@@ -1,8 +1,10 @@
+import 'package:chatapp/pages/home%20page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'image.dart';
 import 'pages/login page.dart';
 import 'pages/messageing page.dart';
 
@@ -24,9 +26,10 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+      home: ImageTest(),
       routes: {
         'texting':(context)=>Texting(),
+        'home':(context)=>HomePage(),
       },
     );
   }

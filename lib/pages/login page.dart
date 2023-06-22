@@ -28,7 +28,7 @@ class LoginPage extends StatelessWidget {
             email: emailController.text,
             password: passwordController.text,
           );
-          Navigator.pushNamed(context, 'texting',arguments: emailController.text);
+          Navigator.pushNamed(context, 'home',arguments: emailController.text);
         } else
           return;
       } on FirebaseAuthException catch (e) {
@@ -47,7 +47,7 @@ class LoginPage extends StatelessWidget {
           email: emailController.text,
           password: passwordController.text,
         );
-        Navigator.pushNamed(context, 'texting',arguments: emailController.text);
+        Navigator.pushNamed(context, 'home',arguments: emailController.text);
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
           showSnack('Warning', 'No user found for that email.');
@@ -61,14 +61,14 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color.fromRGBO(255, 255, 255, 1.0),
       body: Obx(
-        () => SafeArea(
+            () => SafeArea(
           child: Form(
             key: key,
             child: ListView(
               children: [
                 Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
+                  const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
                   child: SizedBox(
                     height: 150,
                     width: 150,
@@ -112,52 +112,52 @@ class LoginPage extends StatelessWidget {
                 ),
                 controller.isLogin.value == false
                     ? customTextField(
-                        labelText: 'Rewrite password',
-                        hintText: 'rewrite password here',
-                        icon: IconButton(
-                          onPressed: () {
-                            controller.secure.value = !controller.secure.value;
-                          },
-                          icon: Icon(
-                            controller.secure.value
-                                ? Icons.visibility
-                                : Icons.visibility_off_rounded,
-                          ),
-                        ),
-                        controller: rewritePasswordController,
-                        obscure: controller.secure.value,
-                        valid: (data) {
-                          if (data != passwordController.text)
-                            return 'password does not match';
-                          else
-                            return null;
-                        },
-                      )
+                  labelText: 'Rewrite password',
+                  hintText: 'rewrite password here',
+                  icon: IconButton(
+                    onPressed: () {
+                      controller.secure.value = !controller.secure.value;
+                    },
+                    icon: Icon(
+                      controller.secure.value
+                          ? Icons.visibility
+                          : Icons.visibility_off_rounded,
+                    ),
+                  ),
+                  controller: rewritePasswordController,
+                  obscure: controller.secure.value,
+                  valid: (data) {
+                    if (data != passwordController.text)
+                      return 'password does not match';
+                    else
+                      return null;
+                  },
+                )
                     : const SizedBox(),
                 controller.isLogin.value == false
                     ? Row(
-                        children: [
-                          Checkbox(
-                              value: controller.policiesCheck.value,
-                              onChanged: (val) =>
-                                  controller.policiesCheck.value = val!),
-                          GestureDetector(
-                            onTap: () => Get.to(TermsOfUse()),
-                            child: const Text(
-                              'Agree to terms of use',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 20,
-                                color: Colors.deepPurpleAccent,
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
+                  children: [
+                    Checkbox(
+                        value: controller.policiesCheck.value,
+                        onChanged: (val) =>
+                        controller.policiesCheck.value = val!),
+                    GestureDetector(
+                      onTap: () => Get.to(TermsOfUse()),
+                      child: const Text(
+                        'Agree to terms of use',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 20,
+                          color: Colors.deepPurpleAccent,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
                     : const SizedBox(),
                 GestureDetector(
                   onTap: () =>
-                      controller.isLogin.value = !controller.isLogin.value,
+                  controller.isLogin.value = !controller.isLogin.value,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(controller.isLogin.value
@@ -167,7 +167,7 @@ class LoginPage extends StatelessWidget {
                 ),
                 Container(
                   margin:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                  const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                   child: ElevatedButton(
                     style: ButtonStyle(
                       padding: MaterialStateProperty.all(

@@ -7,31 +7,39 @@ import '../models/message model.dart';
 class Texting extends StatelessWidget {
 
 
-  CollectionReference messages = FirebaseFirestore.instance.collection('messages');
+  CollectionReference messages = FirebaseFirestore.instance.collection('mahmoudswilam02@gmail.com|mahmoudswilam24@gmail.com');
   TextEditingController controller = TextEditingController();
   final scrollController = ScrollController();
   
 
   @override
   Widget build(BuildContext context) {
-    String args = ModalRoute.of(context)!.settings.arguments.toString();
+    Map args = ModalRoute.of(context)!.settings.arguments as Map;
     return Scaffold(
       appBar: AppBar(),
       body: StreamBuilder(
-        stream: messages.orderBy('createdBy',descending: true).snapshots(),
+        stream: messages.orderBy('date',descending: true).snapshots(),
         builder: (context,snapshot){
           return  Column(
             children: [
               Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ListView.builder(
-                    reverse: true,
-                    shrinkWrap: true,
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (context, index) {
-                      return (snapshot.data!.docs[index]['id'] == args )?bubble(snapshot.data!.docs[index]['message']):bubble2(snapshot.data!.docs[index]['message']);
-                    },
+                child: Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/chatimage.jpeg'),
+                    fit: BoxFit.fill
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListView.builder(
+                      reverse: true,
+                      shrinkWrap: true,
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        return (snapshot.data!.docs[index]['sender'] == args['sender'] )?bubble(snapshot.data!.docs[index]['message']):bubble2(snapshot.data!.docs[index]['message']);
+                      },
+                    ),
                   ),
                 ),
               ),
@@ -48,7 +56,7 @@ class Texting extends StatelessWidget {
                       controller: controller,
                       onSubmitted: (data){
                         if(data.isNotEmpty){
-                          messages.add({'message':data,'createdBy':DateTime.now(),'id':args},);
+                          messages.add({'message':data,'date':DateTime.now(),'sender':args['sender'],'reciever':args['reciever'],},);
                           controller.clear();
                           scrollController.animateTo(0, duration: const Duration(milliseconds: 1500), curve: Curves.bounceInOut);
                         }
