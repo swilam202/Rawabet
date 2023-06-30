@@ -8,22 +8,37 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     String args = ModalRoute.of(context)!.settings.arguments as String;
 
-    List names = ['mahmoudswilam24@gmail.com','mahmoudswilam02@gmail.com'];
 
-    CollectionReference users = FirebaseFirestore.instance.collection('users');
+
+    Stream<QuerySnapshot> users = FirebaseFirestore.instance.collection('users').snapshots();
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Chats'),
         centerTitle: true,
       ),
-      body: ListView.builder(
-          itemCount: names.length,
-          itemBuilder: (context,index){
-        return GestureDetector(
-            onTap: ()=>Navigator.of(context).pushNamed('texting',arguments: {'sender': args,'reciever':names[index]}),
-            child:  ListTile(leading: Text(names[index],style: const TextStyle(fontSize: 20),), ),);
-      },),
+      body:StreamBuilder(
+        stream: users,
+        builder: (context,snapshot){
+         late List contacts;
+            for(int i = 0;i< snapshot.data!.docs.length;i++){
+              if(snapshot.data!.docs[i]['id'] == args){
+                contacts = snapshot.data!.docs[i]['contacts'];
+                break;
+              }
+            }
+          return ListView.builder(
+            itemCount: contacts.length,
+            itemBuilder: (context,index){
+              return GestureDetector(
+                  onTap: (){
+                    Navigator.of(context).pushNamed('texting',arguments: {'sender': args,'receiver': contacts[index],},);
+                  },
+                  child: ListTile(trailing: Expanded(child: Text(contacts[index],style: const TextStyle(fontSize: 20),textAlign: TextAlign.start,),),),);
+
+            },);
+        },
+      ),
       floatingActionButton: FloatingActionButton(
 
         onPressed: (){

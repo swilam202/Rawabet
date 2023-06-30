@@ -26,7 +26,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: ImageTest(),
+      home: LoginPage(),
       routes: {
         'texting':(context)=>Texting(),
         'home':(context)=>HomePage(),
@@ -34,3 +34,6 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
+
+
+

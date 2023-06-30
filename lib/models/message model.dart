@@ -1,10 +1,10 @@
 
 
 class Message{
+  final String sender;
+  final String receiver;
   final String messageContent;
-  Message(this.messageContent);
+  Message(this.messageContent,this.sender,this.receiver);
 
-  factory Message.fromJson(data){
-    return Message(data['message']);
-  }
+
 }
