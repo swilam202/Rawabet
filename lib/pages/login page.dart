@@ -1,4 +1,5 @@
 import 'package:chatapp/controllers/login%20controller.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,11 +11,13 @@ import 'messageing page.dart';
 import 'terms of use.dart';
 
 class LoginPage extends StatelessWidget {
+  TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController rewritePasswordController = TextEditingController();
   LoginController controller = Get.put(LoginController());
   final GlobalKey<FormState> key = GlobalKey<FormState>();
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +31,13 @@ class LoginPage extends StatelessWidget {
             email: emailController.text,
             password: passwordController.text,
           );
-          Navigator.pushNamed(context, 'home',arguments: emailController.text);
+          users.add({
+            'name':nameController.text,
+            'id':emailController.text,
+            'contacts': [],
+
+          });
+          Navigator.of(context).pushReplacementNamed('home',arguments: emailController.text);
         } else
           return;
       } on FirebaseAuthException catch (e) {
@@ -47,7 +56,7 @@ class LoginPage extends StatelessWidget {
           email: emailController.text,
           password: passwordController.text,
         );
-        Navigator.pushNamed(context, 'home',arguments: emailController.text);
+        Navigator.of(context).pushReplacementNamed('home',arguments: emailController.text);
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
           showSnack('Warning', 'No user found for that email.');
@@ -75,12 +84,17 @@ class LoginPage extends StatelessWidget {
                     child: Image.asset('assets/chat.gif'),
                   ),
                 ),
+                controller.isLogin.value == false ?customTextField(
+                  labelText: 'Name',
+                  hintText: 'enter name here',
+                  icon: const Icon(Icons.person),
+                  controller: nameController,
+                ):SizedBox(),
                 customTextField(
                   labelText: 'Email',
                   hintText: 'enter email here',
                   icon: const Icon(Icons.alternate_email),
                   controller: emailController,
-                  obscure: false,
                   valid: (data) {
                     if (!data!.contains('@'))
                       return 'invalid email';

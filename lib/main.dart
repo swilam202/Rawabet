@@ -30,6 +30,7 @@ class _MyAppState extends State<MyApp> {
       routes: {
         'texting':(context)=>Texting(),
         'home':(context)=>HomePage(),
+        'login':(context)=>LoginPage(),
       },
     );
   }

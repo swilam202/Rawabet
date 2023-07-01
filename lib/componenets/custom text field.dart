@@ -4,14 +4,14 @@ Widget customTextField({
   required String labelText,
   required String hintText,
   required TextEditingController controller,
-  required bool obscure,
+  @required bool? obscure,
   required Widget icon,
-  required String? Function(String?) valid,
+  @required String? Function(String?)? valid,
 }) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
     child: TextFormField(
-      obscureText: obscure,
+      obscureText: obscure ?? false,
       controller: controller,
       obscuringCharacter: '*',
         validator: valid,

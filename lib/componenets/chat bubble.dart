@@ -5,7 +5,7 @@ Widget bubble(String text) {
     alignment: Alignment.centerLeft,
     child: Container(
       decoration: const BoxDecoration(
-        color: Colors.blueAccent,
+        color: Colors.indigo,
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(20),
           topLeft: Radius.circular(20),
@@ -30,7 +30,7 @@ Widget bubble2(String text) {
     alignment: Alignment.centerRight,
     child: Container(
       decoration: const BoxDecoration(
-        color: Colors.green,
+        color: Colors.grey,
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(20),
           topLeft: Radius.circular(20),
