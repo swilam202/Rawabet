@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'image.dart';
+import 'pages/Account.dart';
 import 'pages/login page.dart';
 import 'pages/messageing page.dart';
 
@@ -31,6 +32,7 @@ class _MyAppState extends State<MyApp> {
         'texting':(context)=>Texting(),
         'home':(context)=>HomePage(),
         'login':(context)=>LoginPage(),
+        'account':(context)=>Account(),
       },
     );
   }

@@ -36,6 +36,7 @@ dependencies:
   cloud_firestore: ^4.8.1
   flutter_launcher_icons: "^0.13.1"
   image_picker: ^0.8.6
+  fluttertoast: ^8.2.2
 
 
 flutter_launcher_icons:

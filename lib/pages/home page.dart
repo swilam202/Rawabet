@@ -1,4 +1,5 @@
 import 'package:chatapp/componenets/default%20drawer.dart';
+import 'package:chatapp/controllers/home%20page%20controller.dart';
 import 'package:chatapp/models/contacts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -9,14 +10,12 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String args = ModalRoute.of(context)!.settings.arguments as String;
-    TextEditingController contactController = TextEditingController();
 
-    Stream<QuerySnapshot> users =
-        FirebaseFirestore.instance.collection('users').snapshots();
+    String args = ModalRoute.of(context)!.settings.arguments as String;
+    HomePageController homePageController = Get.put(HomePageController(args: args));
+
     //CollectionReference reference = FirebaseFirestore.instance.collection('usrs');
-    List<Contacts> contacts = [];
-    List contactsList = [];
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.indigo,
@@ -24,68 +23,97 @@ class HomePage extends StatelessWidget {
         centerTitle: true,
       ),
       body: StreamBuilder(
-        stream: users,
+        stream: homePageController.users.snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child: CircularProgressIndicator(
-                  color: Colors.indigo, backgroundColor: Colors.indigoAccent),
+                color: Colors.indigo,
+                backgroundColor: Colors.indigoAccent,
+              ),
             );
           } else {
+            homePageController.contacts.value = [];
+            homePageController.contactsList.value = [];
             for (int i = 0; i < snapshot.data!.docs.length; i++) {
               if (snapshot.data!.docs[i]['id'] == args) {
-                contactsList = snapshot.data!.docs[i]['contacts'];
+                homePageController.contactsList.value =
+                    snapshot.data!.docs[i]['contacts'];
+                homePageController.userName.value =
+                    snapshot.data!.docs[i]['name'];
+                homePageController.userImage.value =
+                    snapshot.data!.docs[i]['image'];
                 break;
               }
             }
 
-            for (int i = 0; i < contactsList.length; i++) {
+            // Query<Map<String, dynamic>> contactsDocs = FirebaseFirestore.instance.collection('users').where('id',isEqualTo: args);
+            //contactsList = cont.get()[0]['contacts'];
+            // getContacts(contactsDocs,contactsList);
+
+            for (int i = 0; i < homePageController.contactsList.length; i++) {
               for (int j = 0; j < snapshot.data!.docs.length; j++) {
-                if (contactsList[i] == snapshot.data!.docs[j]['id']) {
-                  contacts.add(Contacts(
-                      contactsList[i], snapshot.data!.docs[j]['name']));
+                if (homePageController.contactsList[i] ==
+                    snapshot.data!.docs[j]['id']) {
+                  homePageController.contacts.add(
+                    Contacts(
+                      homePageController.contactsList[i],
+                      snapshot.data!.docs[j]['name'],
+                      snapshot.data!.docs[j]['image'],
+                    ),
+                  );
                 }
               }
             }
 
             return ListView.builder(
-              itemCount: contacts.length,
+              itemCount: homePageController.contacts.length,
               itemBuilder: (context, index) {
-                return Card(
-                  margin: const EdgeInsets.all(5),
-                  shadowColor: Colors.blueGrey,
-                  clipBehavior: Clip.hardEdge,
-                  elevation: 5,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushNamed(
-                          'texting',
-                          arguments: {
-                            'name': contacts[index].name,
-                            'sender': args,
-                            'receiver': contacts[index].id,
-                          },
-                        );
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(52),
-                        ),
-                        child: ListTile(
+                return Container(
+                  margin: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(
+                      topRight: Radius.circular(10),
+                      bottomRight: Radius.circular(25),
+                      topLeft: Radius.circular(25),
+                      bottomLeft: Radius.circular(10),
+                    ),
+                    color: Colors.grey[300],
+                  ),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushNamed(
+                        'texting',
+                        arguments: {
+                          'name': homePageController.contacts[index].name,
+                          'sender': args,
+                          'receiver': homePageController.contacts[index].id,
+                          'image': homePageController.contacts[index].image,
+                        },
+                      );
+                    },
+                    child: Column(
+                      children: [
+                        ListTile(
+                          splashColor: Colors.indigoAccent,
                           leading: CircleAvatar(
-                            backgroundColor: Colors.teal[100],
+                            radius: 30.0,
+                            // Increase the radius to make the avatar larger
+                            backgroundImage: NetworkImage(
+                                homePageController.contacts[index].image),
+                            // child: Image(
+                            //   image: NetworkImage(),
+                            //   fit: BoxFit.cover,
+                            // ),
                           ),
-                          trailing: Expanded(
-                            child: Text(
-                              contacts[index].name,
-                              style: const TextStyle(fontSize: 20),
-                              textAlign: TextAlign.start,
-                            ),
+                          title: Text(
+                            '  ${homePageController.contacts[index].name}',
+                            style: const TextStyle(fontSize: 20),
                           ),
                         ),
-                      ),
+                      ],
                     ),
                   ),
                 );
@@ -97,33 +125,43 @@ class HomePage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Get.bottomSheet(
-              Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(
-                      controller: contactController,
-                      decoration: const InputDecoration(
-                        labelText: 'Add contact',
-                        hintText: 'Add someone to your contact',
-                      ),
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: TextField(
+                    controller: homePageController.contactController.value,
+                    decoration: const InputDecoration(
+                      labelText: 'Add contact',
+                      hintText: 'Add someone to your contact',
                     ),
                   ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: const Icon(Icons.add_call),
-                  ),
-                ],
-              ),
-              backgroundColor: Colors.white);
+                ),
+                ElevatedButton(
+                  onPressed: ()=>homePageController.addContacts(),
+                  child: const Icon(Icons.add_call),
+                ),
+              ],
+            ),
+            backgroundColor: Colors.white,
+          );
         },
         child: const Icon(Icons.message),
       ),
       drawer: DefaultDrawer(
-          context: context,
-          name: 'name',
-          image:
-              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR34hPo9zGkYxB2NKePgvPeImdm-CDTsHPrt4DFUyU_4A&s'),
+        context: context,
+        name: homePageController.userName.value,
+        image: homePageController.userImage.value,
+      ),
     );
   }
 }
+
+// void getContacts(Query<Map<String, dynamic>> query,List contactsList)async{
+//
+//   QuerySnapshot<Map<String, dynamic>> querySnapshot = await query.get();
+//   contactsList= await querySnapshot.docs[0]['contacts'];
+//
+//
+//
+// }

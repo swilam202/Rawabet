@@ -22,8 +22,21 @@ class Texting extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.indigo,
-        title: Text(args['name']),
+        title:Row(children: [
+          CircleAvatar(
+            radius: 20.0, // Increase the radius to make the avatar larger
+            backgroundImage: NetworkImage(args['image']),
+            // child: Image(
+            //   image: NetworkImage(),
+            //   fit: BoxFit.cover,
+            // ),
+          ),
+          const SizedBox(width: 15,),
+          Text(args['name']),
+        ],),
+
         centerTitle: true,
+
       ),
       body: StreamBuilder(
         stream: messages.orderBy('date',descending: true).snapshots(),

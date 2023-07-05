@@ -41,17 +41,26 @@ class DefaultDrawer extends StatelessWidget {
               ],
             ),
           ),
-          GestureDetector(
+           ListTile(
             onTap: () => Navigator.of(context).pushReplacementNamed('login'),
-            child: const ListTile(
-              leading: Text(
-                'Change account',
-                style: TextStyle(fontSize: 20, color: Colors.blue),
-              ),
-              trailing: Icon(
-                Icons.forward,
-                color: Colors.blue,
-              ),
+            leading: const Text(
+              'Change account',
+              style: TextStyle(fontSize: 20, color: Colors.black),
+            ),
+            trailing: const Icon(
+              Icons.login,
+              color: Colors.black,
+            ),
+          ),
+          ListTile(
+            onTap: () => Navigator.of(context).pushNamed('account'),
+            leading: const Text(
+              'Account',
+              style: TextStyle(fontSize: 20, color: Colors.black),
+            ),
+            trailing: const Icon(
+              Icons.account_circle_rounded,
+              color: Colors.black,
             ),
           ),
         ],
