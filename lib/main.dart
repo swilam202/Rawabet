@@ -26,6 +26,13 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      theme: ThemeData(
+        primaryColor: const Color.fromRGBO(63, 196, 168, 1.0),
+       appBarTheme: const AppBarTheme(
+         backgroundColor: Color.fromRGBO(40, 121, 104, 1.0),
+
+       )
+      ),
       debugShowCheckedModeBanner: false,
       home: LoginPage(),
       routes: {

@@ -10,15 +10,14 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     String args = ModalRoute.of(context)!.settings.arguments as String;
-    HomePageController homePageController = Get.put(HomePageController(args: args));
+    HomePageController homePageController =
+        Get.put(HomePageController(args: args));
 
     //CollectionReference reference = FirebaseFirestore.instance.collection('usrs');
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.indigo,
         title: const Text('Rawabet'),
         centerTitle: true,
       ),
@@ -28,9 +27,8 @@ class HomePage extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child: CircularProgressIndicator(
-                color: Colors.indigo,
-                backgroundColor: Colors.indigoAccent,
-              ),
+                  color: Color.fromRGBO(63, 196, 168, 1.0),
+                  backgroundColor: Color.fromRGBO(40, 121, 104, 1.0)),
             );
           } else {
             homePageController.contacts.value = [];
@@ -70,18 +68,8 @@ class HomePage extends StatelessWidget {
               itemCount: homePageController.contacts.length,
               itemBuilder: (context, index) {
                 return Container(
-                  margin: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.only(
-                      topRight: Radius.circular(10),
-                      bottomRight: Radius.circular(25),
-                      topLeft: Radius.circular(25),
-                      bottomLeft: Radius.circular(10),
-                    ),
-                    color: Colors.grey[300],
-                  ),
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                  margin: const EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+
                   child: GestureDetector(
                     onTap: () {
                       Navigator.of(context).pushNamed(
@@ -97,7 +85,7 @@ class HomePage extends StatelessWidget {
                     child: Column(
                       children: [
                         ListTile(
-                          splashColor: Colors.indigoAccent,
+                          splashColor: const Color.fromRGBO(63, 196, 168, 1.0),
                           leading: CircleAvatar(
                             radius: 30.0,
                             // Increase the radius to make the avatar larger
@@ -110,9 +98,18 @@ class HomePage extends StatelessWidget {
                           ),
                           title: Text(
                             '  ${homePageController.contacts[index].name}',
-                            style: const TextStyle(fontSize: 20),
+                            style: const TextStyle(fontSize: 20,fontWeight: FontWeight.w400),
+
                           ),
                         ),
+                        const Padding(
+                          padding:  EdgeInsets.only(top: 10),
+                          child: Divider(
+                            thickness: 1,
+                            endIndent: 15,
+                            indent: 15,
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -123,6 +120,7 @@ class HomePage extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color.fromRGBO(63, 196, 168, 1.0),
         onPressed: () {
           Get.bottomSheet(
             Column(
@@ -138,7 +136,14 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: ()=>homePageController.addContacts(),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                        const Color.fromRGBO(63, 196, 168, 1.0)),
+                    padding: MaterialStateProperty.all(
+                        const EdgeInsets.symmetric(
+                            horizontal: 100, vertical: 15)),
+                  ),
+                  onPressed: () => homePageController.addContacts(),
                   child: const Icon(Icons.add_call),
                 ),
               ],

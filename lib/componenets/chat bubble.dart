@@ -5,7 +5,7 @@ Widget bubble(String text) {
     alignment: Alignment.centerLeft,
     child: Container(
       decoration: const BoxDecoration(
-        color: Colors.indigo,
+        color: Color.fromRGBO(63, 196, 168, 1.0),
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(20),
           topLeft: Radius.circular(20),

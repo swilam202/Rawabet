@@ -37,6 +37,7 @@ dependencies:
   flutter_launcher_icons: "^0.13.1"
   image_picker: ^0.8.6
   fluttertoast: ^8.2.2
+  qr_flutter: ^4.1.0
 
 
 flutter_launcher_icons:

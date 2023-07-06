@@ -21,7 +21,6 @@ class Texting extends StatelessWidget {
     Map args = ModalRoute.of(context)!.settings.arguments as Map;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.indigo,
         title:Row(children: [
           CircleAvatar(
             radius: 20.0, // Increase the radius to make the avatar larger
@@ -42,7 +41,7 @@ class Texting extends StatelessWidget {
         stream: messages.orderBy('date',descending: true).snapshots(),
         builder: (context,snapshot){
          if(snapshot.connectionState == ConnectionState.waiting){
-           return const Center(child: CircularProgressIndicator(color: Colors.indigo,backgroundColor: Colors.indigoAccent),);
+           return const Center(child: CircularProgressIndicator(color: Color.fromRGBO(63, 196, 168, 1.0),backgroundColor: Color.fromRGBO(40, 121, 104, 1.0)),);
          }
          else{
            messagesList = [];
@@ -75,7 +74,7 @@ class Texting extends StatelessWidget {
                      onPressed: () {},
                      icon: const Icon(
                        Icons.attachment,
-                       color: Colors.indigo,
+                       color: Color.fromRGBO(63, 196, 168, 1.0),
                      ),
                    ),
                    Expanded(
@@ -102,7 +101,7 @@ class Texting extends StatelessWidget {
                            onPressed: () {},
                            icon: const Icon(
                              Icons.send,
-                             color: Colors.indigo,
+                             color: Color.fromRGBO(63, 196, 168, 1.0),
                            ),
                          ),),
                      ),
@@ -112,7 +111,7 @@ class Texting extends StatelessWidget {
                      child: FloatingActionButton(
                        onPressed: () {},
 
-                       backgroundColor: Colors.indigo,
+                       backgroundColor: Color.fromRGBO(63, 196, 168, 1.0),
                        child: const Icon(Icons.mic),
                      ),
                    ),
