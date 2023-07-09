@@ -35,6 +35,7 @@ class LoginPage extends StatelessWidget {
             'name':nameController.text,
             'id':emailController.text,
             'contacts': [],
+            'image': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReFjO6rbNAKcZtfgpqkhnqWGPwcH5hAArN1A&usqp=CAU'
 
           });
           Navigator.of(context).pushReplacementNamed('home',arguments: emailController.text);
@@ -71,6 +72,7 @@ class LoginPage extends StatelessWidget {
       backgroundColor: const Color.fromRGBO(255, 255, 255, 1.0),
       body: Obx(
             () => SafeArea(
+
           child: Form(
             key: key,
             child: ListView(
@@ -84,13 +86,19 @@ class LoginPage extends StatelessWidget {
                     child: Image.asset('assets/chat.gif'),
                   ),
                 ),
-                controller.isLogin.value == false ?customTextField(
+                controller.isLogin.value == false ?CustomTextField(
                   labelText: 'Name',
+                  valid: (data) {
+                    if (data!.length < 3 || data.length > 20)
+                      return 'Name must be more than 2 characters and less than 20';
+                    else
+                      return null;
+                  },
                   hintText: 'enter name here',
                   icon: const Icon(Icons.person),
                   controller: nameController,
-                ):SizedBox(),
-                customTextField(
+                ):const SizedBox(),
+                CustomTextField(
                   labelText: 'Email',
                   hintText: 'enter email here',
                   icon: const Icon(Icons.alternate_email),
@@ -102,7 +110,7 @@ class LoginPage extends StatelessWidget {
                       return null;
                   },
                 ),
-                customTextField(
+                CustomTextField(
                   labelText: 'Password',
                   hintText: 'enter password here',
                   icon: IconButton(
@@ -125,7 +133,7 @@ class LoginPage extends StatelessWidget {
                   },
                 ),
                 controller.isLogin.value == false
-                    ? customTextField(
+                    ? CustomTextField(
                   labelText: 'Rewrite password',
                   hintText: 'rewrite password here',
                   icon: IconButton(

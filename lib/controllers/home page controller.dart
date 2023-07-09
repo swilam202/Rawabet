@@ -3,13 +3,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../componenets/custom text field.dart';
 import '../models/contacts.dart';
 
 class HomePageController extends GetxController {
-  HomePageController({this.args});
+  HomePageController({this.id});
 
-  String? args;
-  RxString userName = 'held'.obs;
+  String? id;
+  RxString userName = ''.obs;
   RxString userImage =
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCgOdPs_lDLRw3h6HgRHYJDvoX3VlEMz2Rm6jalq3fGA&s'
           .obs;
@@ -18,9 +19,9 @@ class HomePageController extends GetxController {
   var users = FirebaseFirestore.instance.collection('users');
   Rx<TextEditingController> contactController = TextEditingController().obs;
 
-  addContacts() async {
+  addContacts(BuildContext context) async {
     QuerySnapshot<Map<String, dynamic>> querySnapshot =
-        await users.where('id', isEqualTo: args).get();
+        await users.where('id', isEqualTo: id).get();
     QuerySnapshot<Map<String, dynamic>> userSnapshot =
         await users.where('id', isEqualTo: contactController.value.text).get();
     List queryContacts = querySnapshot.docs[0]['contacts'];
@@ -37,8 +38,16 @@ class HomePageController extends GetxController {
           },
         );
       });
+      Navigator.of(context).pop();
     } else {
       showSnack('Error', 'Sorry no user found for this email');
     }
   }
+
+
+
+
+
+
+
 }

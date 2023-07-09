@@ -1,9 +1,14 @@
+import 'package:chatapp/pages/Account.dart';
 import 'package:flutter/material.dart';
 
 class DefaultDrawer extends StatelessWidget {
   DefaultDrawer(
-      {required this.context, required this.name, required this.image});
+      {required this.id,
+      required this.context,
+      required this.name,
+      required this.image,});
 
+  String id;
   String image;
   String name;
   BuildContext context;
@@ -41,27 +46,41 @@ class DefaultDrawer extends StatelessWidget {
               ],
             ),
           ),
-
           ListTile(
-            onTap: () => Navigator.of(context).pushNamed('account'),
-            leading: const Text(
-              'Account',
-              style: TextStyle(fontSize: 20, color: Colors.black),
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => Account(
+                  id: id,
+                  name: name,
+                  image: image,
+                  isSelfAccount: true,
+                ),
+              ),
             ),
-            trailing: const Icon(
+            leading: const Icon(
               Icons.account_circle_rounded,
-              color: Colors.black,
+              color: Color.fromRGBO(18, 109, 171, 1.0),
+            ),
+            title: const Text(
+              'Account',
+              style: TextStyle(
+                fontSize: 20,
+                color: Color.fromRGBO(18, 109, 171, 1.0),
+              ),
             ),
           ),
           ListTile(
             onTap: () => Navigator.of(context).pushReplacementNamed('login'),
-            leading: const Text(
-              'Change account',
-              style: TextStyle(fontSize: 20, color: Colors.black),
-            ),
-            trailing: const Icon(
+            leading: const Icon(
               Icons.login,
-              color: Colors.black,
+              color: Color.fromRGBO(18, 109, 171, 1.0),
+            ),
+            title: const Text(
+              'Change account',
+              style: TextStyle(
+                fontSize: 20,
+                color: Color.fromRGBO(18, 109, 171, 1.0),
+              ),
             ),
           ),
         ],

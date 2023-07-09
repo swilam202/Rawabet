@@ -10,9 +10,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String args = ModalRoute.of(context)!.settings.arguments as String;
-    HomePageController homePageController =
-        Get.put(HomePageController(args: args));
+    String id = ModalRoute.of(context)!.settings.arguments as String;
+    HomePageController homePageController = Get.put(HomePageController(id: id));
 
     //CollectionReference reference = FirebaseFirestore.instance.collection('usrs');
 
@@ -27,14 +26,22 @@ class HomePage extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child: CircularProgressIndicator(
-                  color: Color.fromRGBO(63, 196, 168, 1.0),
-                  backgroundColor: Color.fromRGBO(40, 121, 104, 1.0)),
+                color: Color.fromRGBO(27, 150, 241, 1.0),
+                backgroundColor: Color.fromRGBO(18, 109, 171, 1.0),
+              ),
             );
-          } else {
+          }
+
+          // else if(!snapshot.hasData || snapshot.hasError){
+          //   return const Center(
+          //     child: Text('No Contacts yet add ones'),
+          //   );
+          // }
+          else {
             homePageController.contacts.value = [];
             homePageController.contactsList.value = [];
             for (int i = 0; i < snapshot.data!.docs.length; i++) {
-              if (snapshot.data!.docs[i]['id'] == args) {
+              if (snapshot.data!.docs[i]['id'] == id) {
                 homePageController.contactsList.value =
                     snapshot.data!.docs[i]['contacts'];
                 homePageController.userName.value =
@@ -45,7 +52,7 @@ class HomePage extends StatelessWidget {
               }
             }
 
-            // Query<Map<String, dynamic>> contactsDocs = FirebaseFirestore.instance.collection('users').where('id',isEqualTo: args);
+            // Query<Map<String, dynamic>> contactsDocs = FirebaseFirestore.instance.collection('users').where('id',isEqualTo: id);
             //contactsList = cont.get()[0]['contacts'];
             // getContacts(contactsDocs,contactsList);
 
@@ -68,15 +75,16 @@ class HomePage extends StatelessWidget {
               itemCount: homePageController.contacts.length,
               itemBuilder: (context, index) {
                 return Container(
-                  margin: const EdgeInsets.symmetric(vertical: 5,horizontal: 10),
-
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                   child: GestureDetector(
                     onTap: () {
                       Navigator.of(context).pushNamed(
                         'texting',
                         arguments: {
+                          'id': homePageController.contacts[index].id,
                           'name': homePageController.contacts[index].name,
-                          'sender': args,
+                          'sender': id,
                           'receiver': homePageController.contacts[index].id,
                           'image': homePageController.contacts[index].image,
                         },
@@ -85,7 +93,7 @@ class HomePage extends StatelessWidget {
                     child: Column(
                       children: [
                         ListTile(
-                          splashColor: const Color.fromRGBO(63, 196, 168, 1.0),
+                          splashColor: const Color.fromRGBO(27, 150, 241, 1.0),
                           leading: CircleAvatar(
                             radius: 30.0,
                             // Increase the radius to make the avatar larger
@@ -98,12 +106,14 @@ class HomePage extends StatelessWidget {
                           ),
                           title: Text(
                             '  ${homePageController.contacts[index].name}',
-                            style: const TextStyle(fontSize: 20,fontWeight: FontWeight.w400),
-
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                         ),
                         const Padding(
-                          padding:  EdgeInsets.only(top: 10),
+                          padding: EdgeInsets.only(top: 10),
                           child: Divider(
                             thickness: 1,
                             endIndent: 15,
@@ -120,33 +130,32 @@ class HomePage extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color.fromRGBO(63, 196, 168, 1.0),
+        backgroundColor: const Color.fromRGBO(27, 150, 241, 1.0),
         onPressed: () {
           Get.bottomSheet(
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: TextField(
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Wrap(
+                alignment: WrapAlignment.center,
+                children: [
+                  TextField(
                     controller: homePageController.contactController.value,
                     decoration: const InputDecoration(
                       labelText: 'Add contact',
                       hintText: 'Add someone to your contact',
                     ),
                   ),
-                ),
-                ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
-                        const Color.fromRGBO(63, 196, 168, 1.0)),
-                    padding: MaterialStateProperty.all(
-                        const EdgeInsets.symmetric(
-                            horizontal: 100, vertical: 15)),
-                  ),
-                  onPressed: () => homePageController.addContacts(),
-                  child: const Icon(Icons.add_call),
-                ),
-              ],
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: FloatingActionButton(
+                      onPressed: () async {
+                        await homePageController.addContacts(context);
+                      },
+                      child: const Icon(Icons.add_call),
+                    ),
+                  )
+                ],
+              ),
             ),
             backgroundColor: Colors.white,
           );
@@ -154,6 +163,7 @@ class HomePage extends StatelessWidget {
         child: const Icon(Icons.message),
       ),
       drawer: DefaultDrawer(
+        id: homePageController.id!,
         context: context,
         name: homePageController.userName.value,
         image: homePageController.userImage.value,

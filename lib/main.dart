@@ -27,9 +27,9 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       theme: ThemeData(
-        primaryColor: const Color.fromRGBO(63, 196, 168, 1.0),
+        primaryColor: const Color.fromRGBO(27, 150, 241, 1.0),
        appBarTheme: const AppBarTheme(
-         backgroundColor: Color.fromRGBO(40, 121, 104, 1.0),
+         backgroundColor: Color.fromRGBO(18, 109, 171, 1.0),
 
        )
       ),
@@ -39,7 +39,7 @@ class _MyAppState extends State<MyApp> {
         'texting':(context)=>Texting(),
         'home':(context)=>HomePage(),
         'login':(context)=>LoginPage(),
-        'account':(context)=>Account(),
+        //'account':(context)=>Account(),
       },
     );
   }

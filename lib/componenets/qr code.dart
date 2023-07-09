@@ -16,17 +16,14 @@ class CustomQRCode extends StatelessWidget {
         version: QrVersions.auto,
         size: 320,
         gapless: false,
-        embeddedImage: const AssetImage('assets/chat.png'),
-        embeddedImageStyle: const QrEmbeddedImageStyle(
-          size: Size.square(50),
-        ),
         eyeStyle: const QrEyeStyle(
-          eyeShape: QrEyeShape.circle,
-          color: Color.fromRGBO(76, 238, 209, 1.0),
+          eyeShape: QrEyeShape.square,
+          color: Color.fromRGBO(27, 150, 241, 1.0),
         ),
         dataModuleStyle: const QrDataModuleStyle(
-            color: Color.fromRGBO(76, 238, 209, 1.0),
-            dataModuleShape: QrDataModuleShape.circle),
+          color: Color.fromRGBO(27, 150, 241, 1.0),
+          dataModuleShape: QrDataModuleShape.square,
+        ),
       ),
     );
   }

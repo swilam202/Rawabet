@@ -5,7 +5,7 @@ Widget bubble(String text) {
     alignment: Alignment.centerLeft,
     child: Container(
       decoration: const BoxDecoration(
-        color: Color.fromRGBO(63, 196, 168, 1.0),
+        color: Color.fromRGBO(27, 150, 241, 1.0),
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(20),
           topLeft: Radius.circular(20),
@@ -30,7 +30,7 @@ Widget bubble2(String text) {
     alignment: Alignment.centerRight,
     child: Container(
       decoration: const BoxDecoration(
-        color: Colors.grey,
+        color: Color.fromRGBO(230, 230, 236, 1.0),
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(20),
           topLeft: Radius.circular(20),
@@ -42,7 +42,7 @@ Widget bubble2(String text) {
       child: Text(
         text,
         style: const TextStyle(
-          color: Colors.white,
+          color: Colors.black,
           fontSize: 18,
         ),
       ),
