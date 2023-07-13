@@ -1,9 +1,8 @@
-import 'package:chatapp/componenets/snack%20bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../componenets/custom text field.dart';
+import '../componenets/snack bar.dart';
 import '../models/contacts.dart';
 
 class HomePageController extends GetxController {
@@ -43,11 +42,4 @@ class HomePageController extends GetxController {
       showSnack('Error', 'Sorry no user found for this email');
     }
   }
-
-
-
-
-
-
-
 }

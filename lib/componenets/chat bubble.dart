@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 
-
-
-
-
-
 class Bubble1 extends StatelessWidget {
-  Bubble1({required this.data,required this.isText,super.key});
+  Bubble1({required this.data, required this.isText, super.key});
 
   String data;
   bool isText;
+
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -25,23 +21,26 @@ class Bubble1 extends StatelessWidget {
         ),
         padding: const EdgeInsets.all(15),
         margin: const EdgeInsets.all(10),
-        child: isText? Text(
-          data,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-          ),
-        ):Image.network(data),
+        child: isText
+            ? Text(
+                data,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                ),
+              )
+            : Image.network(data),
       ),
     );
   }
 }
 
 class Bubble2 extends StatelessWidget {
-  Bubble2({required this.data,required this.isText,super.key});
+  Bubble2({required this.data, required this.isText, super.key});
 
   String data;
   bool isText;
+
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -57,39 +56,19 @@ class Bubble2 extends StatelessWidget {
         ),
         padding: const EdgeInsets.all(15),
         margin: const EdgeInsets.all(10),
-        child: isText? Text(
-          data,
-          style: const TextStyle(
-            color: Colors.black,
-            fontSize: 18,
-          ),
-        ):Image.network(data),
+        child: isText
+            ? Text(
+                data,
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 18,
+                ),
+              )
+            : Image.network(data),
       ),
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //
 // Widget bubble(String text) {

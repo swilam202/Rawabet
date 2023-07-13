@@ -1,12 +1,14 @@
-import 'package:chatapp/pages/Account.dart';
 import 'package:flutter/material.dart';
 
+import '../pages/Account.dart';
+
 class DefaultDrawer extends StatelessWidget {
-  DefaultDrawer(
-      {required this.id,
-      required this.context,
-      required this.name,
-      required this.image,});
+  DefaultDrawer({
+    required this.id,
+    required this.context,
+    required this.name,
+    required this.image,
+  });
 
   String id;
   String image;

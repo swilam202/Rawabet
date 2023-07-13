@@ -1,9 +1,9 @@
-import 'package:chatapp/componenets/default%20drawer.dart';
-import 'package:chatapp/controllers/home%20page%20controller.dart';
-import 'package:chatapp/models/contacts.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../componenets/default drawer.dart';
+import '../controllers/home page controller.dart';
+import '../models/contacts.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,8 +12,6 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     String id = ModalRoute.of(context)!.settings.arguments as String;
     HomePageController homePageController = Get.put(HomePageController(id: id));
-
-    //CollectionReference reference = FirebaseFirestore.instance.collection('usrs');
 
     return Scaffold(
       appBar: AppBar(
@@ -30,14 +28,7 @@ class HomePage extends StatelessWidget {
                 backgroundColor: Color.fromRGBO(18, 109, 171, 1.0),
               ),
             );
-          }
-
-          // else if(!snapshot.hasData || snapshot.hasError){
-          //   return const Center(
-          //     child: Text('No Contacts yet add ones'),
-          //   );
-          // }
-          else {
+          } else {
             homePageController.contacts.value = [];
             homePageController.contactsList.value = [];
             for (int i = 0; i < snapshot.data!.docs.length; i++) {
@@ -51,10 +42,6 @@ class HomePage extends StatelessWidget {
                 break;
               }
             }
-
-            // Query<Map<String, dynamic>> contactsDocs = FirebaseFirestore.instance.collection('users').where('id',isEqualTo: id);
-            //contactsList = cont.get()[0]['contacts'];
-            // getContacts(contactsDocs,contactsList);
 
             for (int i = 0; i < homePageController.contactsList.length; i++) {
               for (int j = 0; j < snapshot.data!.docs.length; j++) {
@@ -96,13 +83,8 @@ class HomePage extends StatelessWidget {
                           splashColor: const Color.fromRGBO(27, 150, 241, 1.0),
                           leading: CircleAvatar(
                             radius: 30.0,
-                            // Increase the radius to make the avatar larger
                             backgroundImage: NetworkImage(
                                 homePageController.contacts[index].image),
-                            // child: Image(
-                            //   image: NetworkImage(),
-                            //   fit: BoxFit.cover,
-                            // ),
                           ),
                           title: Text(
                             '  ${homePageController.contacts[index].name}',
@@ -171,12 +153,3 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-
-// void getContacts(Query<Map<String, dynamic>> query,List contactsList)async{
-//
-//   QuerySnapshot<Map<String, dynamic>> querySnapshot = await query.get();
-//   contactsList= await querySnapshot.docs[0]['contacts'];
-//
-//
-//
-// }

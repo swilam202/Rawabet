@@ -1,21 +1,18 @@
+import 'package:path/path.dart';
 import 'dart:io';
 
-import 'package:chatapp/componenets/custom%20text%20field.dart';
-import 'package:chatapp/componenets/qr%20code.dart';
-import 'package:chatapp/componenets/snack%20bar.dart';
-import 'package:chatapp/componenets/toast.dart';
-import 'package:chatapp/controllers/home%20page%20controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:qr_flutter/qr_flutter.dart';
-import 'package:get/get.dart';
-import 'package:path/path.dart';
+
+import '../componenets/custom text field.dart';
+import '../componenets/qr code.dart';
+import '../componenets/snack bar.dart';
+import '../componenets/toast.dart';
+import '../controllers/home page controller.dart';
 
 class Account extends StatelessWidget {
   Account({
@@ -46,22 +43,21 @@ class Account extends StatelessWidget {
             children: [
               const SizedBox(height: 50),
               GestureDetector(
-                onDoubleTap: ()async{
-                 // isSelfAccount? ()=> newImage(ImageSource.gallery):(){}
-                  if(isSelfAccount){
+                onDoubleTap: () async {
+                  // isSelfAccount? ()=> newImage(ImageSource.gallery):(){}
+                  if (isSelfAccount) {
                     return await Get.bottomSheet(
                       Wrap(
                         children: [
                           ListTile(
                             title: const Text('Camera'),
                             leading: const Icon(Icons.camera),
-                            onTap: ()=> newImage(ImageSource.camera,context),
+                            onTap: () => newImage(ImageSource.camera, context),
                           ),
                           ListTile(
                             title: const Text('Gallery'),
                             leading: const Icon(Icons.image),
-                            onTap: ()=> newImage(ImageSource.gallery,context),
-
+                            onTap: () => newImage(ImageSource.gallery, context),
                           ),
                         ],
                       ),
@@ -76,7 +72,7 @@ class Account extends StatelessWidget {
               ),
               const SizedBox(height: 50),
               GestureDetector(
-                onDoubleTap: isSelfAccount? () => newName(context):(){},
+                onDoubleTap: isSelfAccount ? () => newName(context) : () {},
                 child: Text(
                   name,
                   style: const TextStyle(
@@ -105,7 +101,7 @@ class Account extends StatelessWidget {
   }
 
   void onPress(String url) {
-     Get.defaultDialog(
+    Get.defaultDialog(
       title: 'QR',
       content: CustomQRCode(url),
     );
@@ -143,13 +139,15 @@ class Account extends StatelessWidget {
                       await homePageController.users
                           .where('id', isEqualTo: homePageController.id)
                           .get();
-                  querySnapshot.docs.forEach((doc) async {
-                    await doc.reference.update(
-                      {
-                        'name': controller.text,
-                      },
-                    );
-                  },);
+                  querySnapshot.docs.forEach(
+                    (doc) async {
+                      await doc.reference.update(
+                        {
+                          'name': controller.text,
+                        },
+                      );
+                    },
+                  );
                   Navigator.of(context).pop();
                 }
               },
@@ -162,25 +160,24 @@ class Account extends StatelessWidget {
     );
   }
 
-  void newImage(ImageSource source ,BuildContext context) async{
+  void newImage(ImageSource source, BuildContext context) async {
     File file;
     ImagePicker imagePicker = ImagePicker();
     var image = await imagePicker.pickImage(source: source);
-    if(image != null){
+    if (image != null) {
       file = File(image.path);
       String name = basename(image.path);
       var reference = FirebaseStorage.instance.ref('images/$name');
       await reference.putFile(file);
       String url = await reference.getDownloadURL();
-      QuerySnapshot<Map<String, dynamic>> query = await homePageController.users.where('id',isEqualTo: homePageController.id).get();
-      query.docs.forEach((doc)async {
-        await doc.reference.update(
-            {'image':url}
-        );
+      QuerySnapshot<Map<String, dynamic>> query = await homePageController.users
+          .where('id', isEqualTo: homePageController.id)
+          .get();
+      query.docs.forEach((doc) async {
+        await doc.reference.update({'image': url});
       });
       Navigator.of(context).pop();
-    }
-    else{
+    } else {
       showToast('Something went wrong please try again');
     }
   }
