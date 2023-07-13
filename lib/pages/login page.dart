@@ -26,7 +26,7 @@ class LoginPage extends StatelessWidget {
   dynamic reference = FirebaseStorage.instance;
   File? file;
   String? name;
-  String? url;
+
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class LoginPage extends StatelessWidget {
             'name':nameController.text,
             'id':emailController.text,
             'contacts': [],
-            'image': url ?? Defaults.defaultImage,
+            'image': url,
 
           });
           Navigator.of(context).pushReplacementNamed('home',arguments: emailController.text);
@@ -89,7 +89,8 @@ class LoginPage extends StatelessWidget {
          name = basename(image.path);
         reference = FirebaseStorage.instance.ref('images/$name');
         await reference.putFile(file);
-        url = await reference.getDownloadURL();
+        controller.url.value = await reference.getDownloadURL();
+        Navigator.of(context).pop();
       }
     }
 
@@ -157,9 +158,11 @@ class LoginPage extends StatelessWidget {
 
                   child:CircleAvatar(
                     radius: 50,
+                    backgroundColor: Colors.transparent,
                     child: ClipOval(
+
                       child: Image(
-                        image: NetworkImage(Defaults.defaultImage),
+                        image: NetworkImage(controller.url.value),
                         fit: BoxFit.cover,
                         width: 100,
                         height: 100,

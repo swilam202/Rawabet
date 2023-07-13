@@ -78,7 +78,7 @@ class Texting extends StatelessWidget {
                 messagesList.add(Message(
                   message['message'],
                     message['sender'],
-                    message['receiver'],message['isText'],));
+                    message['receiver'],message['isText'],),);
               }
             }
 
