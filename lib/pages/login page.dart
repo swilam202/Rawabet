@@ -1,9 +1,14 @@
+import 'dart:io';
+
+import 'package:chatapp/constants.dart';
 import 'package:chatapp/controllers/login%20controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
 import '../componenets/custom text field.dart';
 import '../componenets/snack bar.dart';
 import 'home page.dart';
@@ -18,11 +23,18 @@ class LoginPage extends StatelessWidget {
   LoginController controller = Get.put(LoginController());
   final GlobalKey<FormState> key = GlobalKey<FormState>();
   CollectionReference users = FirebaseFirestore.instance.collection('users');
+  dynamic reference = FirebaseStorage.instance;
+  File? file;
+  String? name;
+  String? url;
 
   @override
   Widget build(BuildContext context) {
 
     signupFunction() async {
+      // if(name != null && file != null) {
+      //
+      // }
       try {
         if (key.currentState!.validate() &&
             controller.policiesCheck.value == true) {
@@ -35,7 +47,7 @@ class LoginPage extends StatelessWidget {
             'name':nameController.text,
             'id':emailController.text,
             'contacts': [],
-            'image': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReFjO6rbNAKcZtfgpqkhnqWGPwcH5hAArN1A&usqp=CAU'
+            'image': url ?? Defaults.defaultImage,
 
           });
           Navigator.of(context).pushReplacementNamed('home',arguments: emailController.text);
@@ -68,6 +80,19 @@ class LoginPage extends StatelessWidget {
     }
 
 
+    void takeImage(ImageSource source ,BuildContext context) async{
+
+      ImagePicker imagePicker = ImagePicker();
+      var image = await imagePicker.pickImage(source: source);
+      if(image != null){
+        file = File(image.path);
+         name = basename(image.path);
+        reference = FirebaseStorage.instance.ref('images/$name');
+        await reference.putFile(file);
+        url = await reference.getDownloadURL();
+      }
+    }
+
     return Scaffold(
       backgroundColor: const Color.fromRGBO(255, 255, 255, 1.0),
       body: Obx(
@@ -86,6 +111,62 @@ class LoginPage extends StatelessWidget {
                     child: Image.asset('assets/chat.gif'),
                   ),
                 ),
+
+                // void newImage(ImageSource source ,BuildContext context) async{
+                //   File file;
+                //   ImagePicker imagePicker = ImagePicker();
+                //   var image = await imagePicker.pickImage(source: source);
+                //   if(image != null){
+                //     file = File(image.path);
+                //     String name = basename(image.path);
+                //     var reference = FirebaseStorage.instance.ref('images/$name');
+                //     await reference.putFile(file);
+                //     String url = await reference.getDownloadURL();
+                //     QuerySnapshot<Map<String, dynamic>> query = await homePageController.users.where('id',isEqualTo: homePageController.id).get();
+                //     query.docs.forEach((doc)async {
+                //       await doc.reference.update(
+                //           {'image':url}
+                //       );
+                //     });
+                //     Navigator.of(context).pop();
+                //   }
+                //   else{
+                //     showToast('Something went wrong please try again');
+                //   }
+                controller.isLogin.value == false ?GestureDetector(
+                  onTap: ()async{
+                    return await Get.bottomSheet(
+                      Wrap(
+                        children: [
+                          ListTile(
+                            title: const Text('Camera'),
+                            leading: const Icon(Icons.camera),
+                            onTap: ()=> takeImage(ImageSource.camera,context),
+                          ),
+                          ListTile(
+                            title: const Text('Gallery'),
+                            leading: const Icon(Icons.image),
+                            onTap: ()=> takeImage(ImageSource.gallery,context),
+
+                          ),
+                        ],
+                      ),
+                      backgroundColor: Colors.white,
+                    );
+                  },
+
+                  child:CircleAvatar(
+                    radius: 50,
+                    child: ClipOval(
+                      child: Image(
+                        image: NetworkImage(Defaults.defaultImage),
+                        fit: BoxFit.cover,
+                        width: 100,
+                        height: 100,
+                      ),
+                    ),
+                  ),
+                ):const SizedBox(),
                 controller.isLogin.value == false ?CustomTextField(
                   labelText: 'Name',
                   valid: (data) {
@@ -212,6 +293,8 @@ class LoginPage extends StatelessWidget {
       ),
     );
   }
+
+
 
 
 }

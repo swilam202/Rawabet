@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'image.dart';
+
 import 'pages/Account.dart';
 import 'pages/login page.dart';
 import 'pages/messageing page.dart';
