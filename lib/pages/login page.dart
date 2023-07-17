@@ -79,7 +79,7 @@ class LoginPage extends StatelessWidget {
       if (image != null) {
         file = File(image.path);
         name = basename(image.path);
-        reference = FirebaseStorage.instance.ref('images/$name');
+        reference = FirebaseStorage.instance.ref('Rawabet/images/$name');
         await reference.putFile(file);
         controller.url.value = await reference.getDownloadURL();
         Navigator.of(context).pop();

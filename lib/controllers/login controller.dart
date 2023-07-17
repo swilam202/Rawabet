@@ -5,6 +5,6 @@ class LoginController extends GetxController {
   RxBool policiesCheck = false.obs;
   RxBool isLogin = true.obs;
   RxString url =
-      'https://firebasestorage.googleapis.com/v0/b/chat-app-168d2.appspot.com/o/user%20(1).png?alt=media&token=a6f09959-1970-4412-94fc-646f64d30119'
+      'https://firebasestorage.googleapis.com/v0/b/chat-app-168d2.appspot.com/o/Rawabet%2Fuser.png?alt=media&token=bf630756-cc16-409b-b41f-bb9a91bd33ee'
           .obs;
 }

@@ -39,12 +39,12 @@ class Account extends StatelessWidget {
           height: double.infinity,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            // mainAxisAlignment: MainAxisAlignment.center,
+
             children: [
               const SizedBox(height: 50),
               GestureDetector(
                 onDoubleTap: () async {
-                  // isSelfAccount? ()=> newImage(ImageSource.gallery):(){}
+
                   if (isSelfAccount) {
                     return await Get.bottomSheet(
                       Wrap(
@@ -67,6 +67,7 @@ class Account extends StatelessWidget {
                 },
                 child: CircleAvatar(
                   radius: 100,
+                  backgroundColor: Colors.transparent,
                   backgroundImage: NetworkImage(image),
                 ),
               ),
@@ -167,7 +168,7 @@ class Account extends StatelessWidget {
     if (image != null) {
       file = File(image.path);
       String name = basename(image.path);
-      var reference = FirebaseStorage.instance.ref('images/$name');
+      var reference = FirebaseStorage.instance.ref('Rawabet/images/$name');
       await reference.putFile(file);
       String url = await reference.getDownloadURL();
       QuerySnapshot<Map<String, dynamic>> query = await homePageController.users

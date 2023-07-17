@@ -112,7 +112,7 @@ class Texting extends StatelessWidget {
                           file = File(image.path);
                           String name = basename(image.path);
                           var reference =
-                              FirebaseStorage.instance.ref('images/$name');
+                              FirebaseStorage.instance.ref('Rawabet/images/$name');
                           await reference.putFile(file);
                           String url = await reference.getDownloadURL();
                           await messages.add(
@@ -199,7 +199,7 @@ class Texting extends StatelessWidget {
                           file = File(image.path);
                           String name = basename(image.path);
                           var reference =
-                              FirebaseStorage.instance.ref('images/$name');
+                              FirebaseStorage.instance.ref('Rawabet/images/$name');
                           await reference.putFile(file);
                           String url = await reference.getDownloadURL();
                           await messages.add(
