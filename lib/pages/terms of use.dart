@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controllers/login controller.dart';
+import '../features/auth screen/presntation/controller/auth controller.dart';
 
 class TermsOfUse extends StatelessWidget {
-  LoginController controller = Get.put(LoginController());
+  AuthController controller = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
