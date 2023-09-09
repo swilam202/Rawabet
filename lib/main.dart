@@ -6,21 +6,19 @@ import 'firebase_options.dart';
 import 'pages/home page.dart';
 import 'pages/login page.dart';
 import 'pages/messageing page.dart';
+import 'splash screen/presentation/views/splash page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MyApp());
+  runApp(Rawabet());
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
 
-class _MyAppState extends State<MyApp> {
+
+class Rawabet extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -30,7 +28,7 @@ class _MyAppState extends State<MyApp> {
             backgroundColor: Color.fromRGBO(18, 109, 171, 1.0),
           )),
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+      home: SplashPage(),
       routes: {
         'texting': (context) => Texting(),
         'home': (context) => HomePage(),

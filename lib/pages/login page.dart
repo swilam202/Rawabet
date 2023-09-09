@@ -240,25 +240,22 @@ class LoginPage extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(controller.isLogin.value
                         ? 'Create new account'
-                        : 'already have an account'),
+                        : 'already have an account',style: const TextStyle(color: Colors.deepPurpleAccent,),),
                   ),
                 ),
-                Container(
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      padding: MaterialStateProperty.all(
-                        const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 100),
-                      ),
+                ElevatedButton(
+                  style: ButtonStyle(
+
+                    padding: MaterialStateProperty.all(
+                       EdgeInsets.symmetric(
+                          vertical: MediaQuery.of(context).size.height * 0.03, horizontal: MediaQuery.of(context).size.width * 0.05,),
                     ),
-                    onPressed: controller.isLogin.value
-                        ? loginFunction
-                        : signupFunction,
-                    child: Text(
-                      controller.isLogin.value == false ? 'Sign up' : 'Log in',
-                    ),
+                  ),
+                  onPressed: controller.isLogin.value
+                      ? loginFunction
+                      : signupFunction,
+                  child: Text(
+                    controller.isLogin.value == false ? 'Sign up' : 'Log in',
                   ),
                 ),
               ],
