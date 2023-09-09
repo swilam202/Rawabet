@@ -84,7 +84,7 @@ class AuthController extends GetxController {
         users.add({
           'name': nameController.value.text,
           'id': emailController.value.text,
-          'contacts': [],
+          'contacts': [emailController.value.text],
           'image': url.value,
         });
         setup(id: emailController.value.text);
