@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:chatapp/core/utils/user%20data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -58,6 +59,7 @@ class AuthController extends GetxController {
         email: emailController.value.text,
         password: passwordController.value.text,
       );
+      setup(id: emailController.value.text);
       Navigator.of(context)
           .pushReplacementNamed('home', arguments: emailController.value.text);
     } on FirebaseAuthException catch (e) {
@@ -85,6 +87,7 @@ class AuthController extends GetxController {
           'contacts': [],
           'image': url.value,
         });
+        setup(id: emailController.value.text);
         Navigator.of(context)
             .pushReplacementNamed('home', arguments: emailController.value.text);
       } else

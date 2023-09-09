@@ -1,9 +1,10 @@
 import 'package:chatapp/core/utils/constants.dart';
+import 'package:chatapp/core/widgets/loading%20state.dart';
 import 'package:chatapp/features/auth%20screen/presntation/views/widgets/text%20field%20section.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import '../../../../../pages/terms of use.dart';
 import '../../controller/auth controller.dart';
 import 'bottom sheet content.dart';
@@ -50,11 +51,13 @@ class AuthBody extends StatelessWidget {
                           radius: 50,
                           backgroundColor: Colors.transparent,
                           child: ClipOval(
-                            child: Image(
-                              image: NetworkImage(controller.url.value),
+                            child: CachedNetworkImage(
                               fit: BoxFit.cover,
                               width: 100,
                               height: 100,
+                              imageUrl: controller.url.value,
+                              placeholder: (context, url) => LoadingState(),
+                              errorWidget: (context, url, error) => Icon(Icons.error),
                             ),
                           ),
                         ),

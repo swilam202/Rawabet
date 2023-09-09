@@ -1,5 +1,6 @@
 import 'package:chatapp/componenets/default%20drawer.dart';
 import 'package:chatapp/core/utils/constants.dart';
+import 'package:chatapp/core/utils/user%20data.dart';
 import 'package:chatapp/core/widgets/custom%20text%20field.dart';
 import 'package:chatapp/core/widgets/loading%20state.dart';
 import 'package:chatapp/features/home%20screen/presentation/views/widgets/home%20body.dart';
@@ -19,15 +20,15 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String id = ModalRoute.of(context)!.settings.arguments as String;
-    HomePageController homePageController = Get.put(HomePageController(id: id));
+
+    HomePageController homePageController = Get.put(HomePageController(id: getIt.get<String>()));
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Rawabet'),
         centerTitle: true,
       ),
-      body: HomeBody(id: id),
+      body: HomeBody(),
       floatingActionButton: FloatingActionButton(
         backgroundColor: kLightColor,
         onPressed: () {

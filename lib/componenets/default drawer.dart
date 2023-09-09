@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import '../core/widgets/loading state.dart';
 import '../pages/Account.dart';
 
 class DefaultDrawer extends StatelessWidget {
@@ -29,9 +31,12 @@ class DefaultDrawer extends StatelessWidget {
                 SizedBox(
                   height: 200,
                   width: double.infinity,
-                  child: Image.network(
-                    image,
+                  child: CachedNetworkImage(
                     fit: BoxFit.fill,
+
+                    imageUrl: image,
+                    placeholder: (context, url) => LoadingState(),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
                 ),
                 Padding(
