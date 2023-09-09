@@ -2,7 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../../componenets/custom text field.dart';
+//import '../../../../../componenets/custom text field.dart';
+import '../../../../../core/widgets/custom text field.dart';
 import '../../controller/auth controller.dart';
 
 class TextFieldSection extends StatelessWidget {

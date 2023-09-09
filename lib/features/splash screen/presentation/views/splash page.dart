@@ -1,3 +1,4 @@
+import 'package:chatapp/core/utils/constants.dart';
 import 'package:chatapp/pages/login%20page.dart';
 import 'package:flutter/material.dart';
 
@@ -31,7 +32,7 @@ class _SplashPageState extends State<SplashPage>
             child: AspectRatio(
               aspectRatio: 1 / 2,
               child: Image.asset(
-                'assets/chatapp.png',
+                kLogo,
               ),
             ),
           ),

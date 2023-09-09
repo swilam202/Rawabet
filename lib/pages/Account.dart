@@ -7,12 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../componenets/custom text field.dart';
 import '../componenets/qr code.dart';
 import '../componenets/snack bar.dart';
 import '../componenets/toast.dart';
-import '../controllers/home page controller.dart';
+//import '../controllers/home page controller.dart';
+import '../core/widgets/custom text field.dart';
+import '../features/home screen/presentation/controller/home page controller.dart';
 
 class Account extends StatelessWidget {
   Account({
