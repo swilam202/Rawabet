@@ -21,6 +21,7 @@ class HomeBody extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return LoadingState();
         } else {
+
           homePageController.loadContacts(snapshot);
 
           return ListView.separated(

@@ -1,4 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:chatapp/core/utils/constants.dart';
+import 'package:chatapp/core/utils/user%20data.dart';
 import 'package:flutter/material.dart';
 
 import '../core/widgets/loading state.dart';
@@ -33,7 +35,6 @@ class DefaultDrawer extends StatelessWidget {
                   width: double.infinity,
                   child: CachedNetworkImage(
                     fit: BoxFit.fill,
-
                     imageUrl: image,
                     placeholder: (context, url) => LoadingState(),
                     errorWidget: (context, url, error) => Icon(Icons.error),
@@ -66,27 +67,30 @@ class DefaultDrawer extends StatelessWidget {
             ),
             leading: const Icon(
               Icons.account_circle_rounded,
-              color: Color.fromRGBO(18, 109, 171, 1.0),
+              color: kDarkColor,
             ),
             title: const Text(
               'Account',
               style: TextStyle(
                 fontSize: 20,
-                color: Color.fromRGBO(18, 109, 171, 1.0),
+                color: kDarkColor,
               ),
             ),
           ),
           ListTile(
-            onTap: () => Navigator.of(context).pushReplacementNamed('login'),
+            onTap: (){
+              getIt.unregister();
+              Navigator.of(context).pushReplacementNamed('login');
+            },
             leading: const Icon(
               Icons.login,
-              color: Color.fromRGBO(18, 109, 171, 1.0),
+              color: kDarkColor,
             ),
             title: const Text(
               'Change account',
               style: TextStyle(
                 fontSize: 20,
-                color: Color.fromRGBO(18, 109, 171, 1.0),
+                color: kDarkColor,
               ),
             ),
           ),
