@@ -1,3 +1,4 @@
+import 'package:chatapp/features/account%20screen/presentation/views/account%20page.dart';
 import 'package:path/path.dart';
 import 'dart:io';
 
@@ -28,7 +29,7 @@ class Texting extends StatelessWidget {
         title: GestureDetector(
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => Account(
+              builder: (context) => AccountPage(
                 id: args['id'],
                 name: args['name'],
                 image: args['image'],

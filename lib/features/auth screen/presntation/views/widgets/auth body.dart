@@ -1,34 +1,35 @@
 import 'package:chatapp/core/utils/constants.dart';
 import 'package:chatapp/core/widgets/loading%20state.dart';
+import 'package:chatapp/features/auth%20screen/presntation/controller/auth%20controller.dart';
 import 'package:chatapp/features/auth%20screen/presntation/views/widgets/text%20field%20section.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../../../../pages/terms of use.dart';
-import '../../controller/auth controller.dart';
+
+//import '../../authController/auth authController.dart';
 import 'bottom sheet content.dart';
 
 class AuthBody extends StatelessWidget {
-   const AuthBody({
-    super.key
-  });
+  const AuthBody({super.key});
 
   // final CollectionReference users;
 
-
   @override
   Widget build(BuildContext context) {
-    // AuthController controller = Get.put(AuthController());
-    final AuthController controller = Get.put(AuthController());
+    // AuthController authController = Get.put(AuthController());
+    final AuthController authController = Get.put(AuthController());
 
-    final CollectionReference users = FirebaseFirestore.instance.collection('users');
+    final CollectionReference users =
+        FirebaseFirestore.instance.collection('users');
     return Obx(
       () => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: SafeArea(
           child: Form(
-            key: controller.key.value,
+            key: authController.key.value,
             child: ListView(
               children: [
                 Padding(
@@ -39,11 +40,16 @@ class AuthBody extends StatelessWidget {
                     child: Image.asset(kGif),
                   ),
                 ),
-                controller.isLogin.value == false
+                authController.isLogin.value == false
                     ? GestureDetector(
                         onTap: () async {
                           return await Get.bottomSheet(
-                            BottomSheetContent(),
+                            ImageBottomSheet(
+                              cameraFunction: () => authController.newImage(
+                                  ImageSource.camera, context),
+                              galleryFunction: () => authController.newImage(
+                                  ImageSource.gallery, context),
+                            ),
                             backgroundColor: Colors.white,
                           );
                         },
@@ -55,22 +61,23 @@ class AuthBody extends StatelessWidget {
                               fit: BoxFit.cover,
                               width: 100,
                               height: 100,
-                              imageUrl: controller.url.value,
+                              imageUrl: authController.url.value,
                               placeholder: (context, url) => LoadingState(),
-                              errorWidget: (context, url, error) => Icon(Icons.error),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
                             ),
                           ),
                         ),
                       )
                     : const SizedBox(),
                 TextFieldSection(),
-                controller.isLogin.value == false
+                authController.isLogin.value == false
                     ? Row(
                         children: [
                           Checkbox(
-                              value: controller.policiesCheck.value,
+                              value: authController.policiesCheck.value,
                               onChanged: (val) =>
-                                  controller.policiesCheck.value = val!),
+                                  authController.policiesCheck.value = val!),
                           GestureDetector(
                             onTap: () => Get.to(TermsOfUse()),
                             child: const Text(
@@ -86,12 +93,12 @@ class AuthBody extends StatelessWidget {
                       )
                     : const SizedBox(),
                 GestureDetector(
-                  onTap: () =>
-                      controller.isLogin.value = !controller.isLogin.value,
+                  onTap: () => authController.isLogin.value =
+                      !authController.isLogin.value,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      controller.isLogin.value
+                      authController.isLogin.value
                           ? 'Create new account'
                           : 'already have an account',
                       style: const TextStyle(
@@ -114,11 +121,13 @@ class AuthBody extends StatelessWidget {
                       ),
                     ),
                   ),
-                  onPressed: () => controller.isLogin.value
-                      ? controller.loginFunction(context)
-                      : controller.signupFunction(context, users),
+                  onPressed: () => authController.isLogin.value
+                      ? authController.loginFunction(context)
+                      : authController.signupFunction(context, users),
                   child: Text(
-                    controller.isLogin.value == false ? 'Sign up' : 'Log in',
+                    authController.isLogin.value == false
+                        ? 'Sign up'
+                        : 'Log in',
                   ),
                 ),
               ],

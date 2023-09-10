@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:chatapp/core/utils/teke%20image.dart';
 import 'package:chatapp/core/utils/user%20data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -38,21 +39,13 @@ class AuthController extends GetxController {
 
 
 
-  void takeImage(ImageSource source, BuildContext context) async {
-    ImagePicker imagePicker = ImagePicker();
-    var image = await imagePicker.pickImage(source: source);
-    if (image != null) {
-      file = File(image.path);
-      name = basename(image.path);
-      reference = FirebaseStorage.instance.ref('Rawabet/images/$name');
-      await reference.putFile(file);
-      url.value = await reference.getDownloadURL();
+  void newImage(ImageSource source, BuildContext context) async {
+    url.value = await takeImage(source) ?? '';
+
       Navigator.of(context).pop();
     }
-  }
 
-
-  loginFunction(BuildContext context) async {
+  void loginFunction(BuildContext context) async {
     try {
 
       await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -71,8 +64,7 @@ class AuthController extends GetxController {
     }
   }
 
-
-  signupFunction(BuildContext context,CollectionReference users) async {
+  void signupFunction(BuildContext context,CollectionReference users) async {
     try {
       if (key.value.currentState!.validate() &&
           policiesCheck.value == true) {

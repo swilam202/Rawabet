@@ -41,12 +41,16 @@ class HomeBody extends StatelessWidget {
                     homePageController.navigateToChatPage(context, index);
                   },
                   splashColor: kLightColor,
-                  leading: CachedNetworkImage(
-                     imageUrl: homePageController.contacts[index].image,
-                     placeholder: (context, url) => LoadingState(),
-                     errorWidget: (context, url, error) => Icon(Icons.error),
+                  leading: CircleAvatar(
+                    radius: 30,
+                     backgroundImage: CachedNetworkImageProvider(
 
-                    ),
+                       homePageController.contacts[index].image,
+                     //  placeholder: (context, url) => LoadingState(),
+                     //  errorWidget: (context, url, error) => Icon(Icons.error),
+
+                     ),
+                  ),
                   title: Text(
                     '  ${homePageController.contacts[index].name}',
                     style: const TextStyle(

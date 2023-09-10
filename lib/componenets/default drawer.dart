@@ -4,6 +4,7 @@ import 'package:chatapp/core/utils/user%20data.dart';
 import 'package:flutter/material.dart';
 
 import '../core/widgets/loading state.dart';
+import '../features/account screen/presentation/views/account page.dart';
 import '../pages/Account.dart';
 
 class DefaultDrawer extends StatelessWidget {
@@ -57,7 +58,7 @@ class DefaultDrawer extends StatelessWidget {
           ListTile(
             onTap: () => Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => Account(
+                builder: (context) => AccountPage(
                   id: id,
                   name: name,
                   image: image,

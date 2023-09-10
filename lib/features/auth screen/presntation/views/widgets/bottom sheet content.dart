@@ -4,25 +4,29 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../controller/auth controller.dart';
 
-class BottomSheetContent extends StatelessWidget {
-    BottomSheetContent({super.key,});
+class ImageBottomSheet extends StatelessWidget {
+  ImageBottomSheet({
+    super.key,
+    required this.cameraFunction,
+    required this.galleryFunction,
+  });
+
+  Function() cameraFunction;
+  Function() galleryFunction;
 
   @override
   Widget build(BuildContext context) {
-    AuthController controller = Get.put(AuthController());
     return Wrap(
       children: [
         ListTile(
           title: const Text('Camera'),
           leading: const Icon(Icons.camera),
-          onTap: () =>
-              controller.takeImage(ImageSource.camera, context),
+          onTap: cameraFunction,
         ),
         ListTile(
           title: const Text('Gallery'),
           leading: const Icon(Icons.image),
-          onTap: () =>
-              controller.takeImage(ImageSource.gallery, context),
+          onTap: galleryFunction,
         ),
       ],
     );
