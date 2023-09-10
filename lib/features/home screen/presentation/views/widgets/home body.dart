@@ -27,7 +27,7 @@ class HomeBody extends StatelessWidget {
           return ListView.separated(
             separatorBuilder: (context,index){
               return Divider(
-                thickness: 1,
+                thickness: 2,
                 endIndent: 15,
                 indent: 15,
               );

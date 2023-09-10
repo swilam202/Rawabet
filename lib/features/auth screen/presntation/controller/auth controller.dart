@@ -53,6 +53,8 @@ class AuthController extends GetxController {
         password: passwordController.value.text,
       );
       setup(id: emailController.value.text);
+      emailController.value.clear();
+      passwordController.value.clear();
       Navigator.of(context)
           .pushReplacementNamed('home', arguments: emailController.value.text);
     } on FirebaseAuthException catch (e) {
@@ -80,6 +82,10 @@ class AuthController extends GetxController {
           'image': url.value,
         });
         setup(id: emailController.value.text);
+        nameController.value.clear();
+        emailController.value.clear();
+        passwordController.value.clear();
+        rewritePasswordController.value.clear();
         Navigator.of(context)
             .pushReplacementNamed('home', arguments: emailController.value.text);
       } else

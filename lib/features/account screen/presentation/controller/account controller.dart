@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:chatapp/core/utils/teke%20image.dart';
+import 'package:chatapp/core/widgets/new%20item.dart';
 import 'package:path/path.dart';
 import 'package:chatapp/core/utils/user%20data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -37,43 +38,31 @@ class AccountController extends GetxController{
     TextEditingController controller = TextEditingController();
     //controller.text = homePageController.userName.value;
     Get.bottomSheet(
-      Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Wrap(
-          alignment: WrapAlignment.center,
-          children: [
-            CustomTextField(
-              labelText: 'Name',
-              hintText: 'Enter your new name',
-              controller: controller,
-              icon: const Icon(Icons.drive_file_rename_outline),
-            ),
-            FloatingActionButton(
-              onPressed: () async {
-                if (controller.text.length > 20 || controller.text.length < 3) {
-                  return showSnack('Warning',
-                      'Name must be more than 2 characters and less than 20');
-                } else {
-                  QuerySnapshot<Map<String, dynamic>> querySnapshot =
-                  await users
-                      .where('id', isEqualTo: getIt.get<String>())
-                      .get();
-                  querySnapshot.docs.forEach(
-                        (doc) async {
-                      await doc.reference.update(
-                        {
-                          'name': controller.text,
-                        },
-                      );
-                    },
-                  );
-                  Navigator.of(context).pop();
-                }
+      AddNewItem(
+        controller: controller,
+        label: 'Name',
+        hint: 'Enter your new name',
+        onPressed: () async {
+          if (controller.text.length > 20 || controller.text.length < 3) {
+            return showSnack('Warning',
+                'Name must be more than 2 characters and less than 20');
+          } else {
+            QuerySnapshot<Map<String, dynamic>> querySnapshot =
+            await users
+                .where('id', isEqualTo: getIt.get<String>())
+                .get();
+            querySnapshot.docs.forEach(
+                  (doc) async {
+                await doc.reference.update(
+                  {
+                    'name': controller.text,
+                  },
+                );
               },
-              child: const Icon(Icons.edit),
-            ),
-          ],
-        ),
+            );
+            Navigator.of(context).pop();
+          }
+        },
       ),
       backgroundColor: Colors.white,
     );

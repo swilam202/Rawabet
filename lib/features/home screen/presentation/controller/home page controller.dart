@@ -1,3 +1,4 @@
+import 'package:chatapp/core/widgets/new%20item.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,7 +18,8 @@ class HomePageController extends GetxController {
           .obs;
   RxList<Contacts> contacts = <Contacts>[].obs;
   RxList contactsList = [].obs;
-  CollectionReference<Map<String, dynamic>> users = FirebaseFirestore.instance.collection('users');
+  CollectionReference<Map<String, dynamic>> users = FirebaseFirestore.instance
+      .collection('users');
   Rx<TextEditingController> contactController = TextEditingController().obs;
 
   Future<void> addContacts(BuildContext context) async {
@@ -45,7 +47,8 @@ class HomePageController extends GetxController {
     }
   }
 
-  void loadContacts(AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot){
+  void loadContacts(
+      AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
     contacts.value = [];
     contactsList.value = [];
     for (int i = 0; i < snapshot.data!.docs.length; i++) {
@@ -76,7 +79,7 @@ class HomePageController extends GetxController {
     }
   }
 
-  void navigateToChatPage(BuildContext context,int index){
+  void navigateToChatPage(BuildContext context, int index) {
     Navigator.of(context).pushNamed(
       'texting',
       arguments: {
@@ -89,31 +92,14 @@ class HomePageController extends GetxController {
     );
   }
 
-  void addContactBottomSheet(BuildContext context){
+  void addContactBottomSheet(BuildContext context) {
     Get.bottomSheet(
-      Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Wrap(
-          alignment: WrapAlignment.center,
-          children: [
-            CustomTextField(
-              labelText: 'Add contact',
-              hintText: 'Add someone to your contacts',
-              controller: contactController.value,
-              icon: Icon(Icons.person),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: FloatingActionButton(
-                onPressed: () async {
-                  await addContacts(context);
-                },
-                child: const Icon(Icons.add_circle_outlined),
-              ),
-            )
-          ],
-        ),
-      ),
+      AddNewItem(label: 'Add contact',
+          onPressed: () async {
+            await addContacts(context);
+          },
+          controller: contactController.value,
+          hint: 'Add someone to your contacts',),
       backgroundColor: Colors.white,
     );
   }

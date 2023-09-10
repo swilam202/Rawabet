@@ -36,12 +36,7 @@ class HomePage extends StatelessWidget {
         },
         child: const Icon(Icons.message),
       ),
-      drawer: DefaultDrawer(
-        id: homePageController.id!,
-        context: context,
-        name: homePageController.userName.value,
-        image: homePageController.userImage.value,
-      ),
+      drawer: DefaultDrawer(),
     );
   }
 }
