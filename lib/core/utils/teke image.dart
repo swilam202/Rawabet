@@ -17,7 +17,7 @@ Future<String?> takeImage(ImageSource source,) async {
     String name = basename(image.path);
     var reference = FirebaseStorage.instance.ref('Rawabet/images/$name');
     await reference.putFile(file);
-    String url = await reference.getDownloadURL();
+    String? url = await reference.getDownloadURL();
     return url;
   }
 }

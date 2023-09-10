@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'features/chat screen/presentation/views/chat page.dart';
 import 'features/home screen/presentation/views/home page.dart';
 import 'features/splash screen/presentation/views/splash page.dart';
 import 'firebase_options.dart';
@@ -34,7 +35,7 @@ class Rawabet extends StatelessWidget{
       debugShowCheckedModeBanner: false,
       home: SplashPage(),
       routes: {
-        'texting': (context) => Texting(),
+        'texting': (context) => ChatPage(),
         'home': (context) => HomePage(),
         'login': (context) => AuthPage(),
       },
