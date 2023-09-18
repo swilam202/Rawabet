@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -23,5 +24,10 @@ class NotificationsServices{
     headers: headers,
 
     ).then((value) => print('doneeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'));
+  }
+
+  static Future<String> getToken()async{
+    String token = (await FirebaseMessaging.instance.getToken())!;
+    return token;
   }
 }

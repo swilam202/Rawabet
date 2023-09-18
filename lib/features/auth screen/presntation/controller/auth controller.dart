@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:chatapp/core/utils/notifications%20services.dart';
 import 'package:chatapp/core/utils/teke%20image.dart';
 import 'package:chatapp/core/utils/user%20data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -56,7 +57,7 @@ class AuthController extends GetxController {
       emailController.value.clear();
       passwordController.value.clear();
       Navigator.of(context)
-          .pushReplacementNamed('home', arguments: emailController.value.text);
+          .pushReplacementNamed('home');
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         showSnack('Warning', 'No user found for that email.');
@@ -75,19 +76,22 @@ class AuthController extends GetxController {
           email: emailController.value.text,
           password: passwordController.value.text,
         );
+        String token = await NotificationsServices.getToken();
         users.add({
           'name': nameController.value.text,
           'id': emailController.value.text,
           'contacts': [emailController.value.text],
           'image': url.value,
+          'token':token,
         });
         setup(id: emailController.value.text);
         nameController.value.clear();
         emailController.value.clear();
         passwordController.value.clear();
         rewritePasswordController.value.clear();
+        
         Navigator.of(context)
-            .pushReplacementNamed('home', arguments: emailController.value.text);
+            .pushReplacementNamed('home');
       } else
         return;
     } on FirebaseAuthException catch (e) {
