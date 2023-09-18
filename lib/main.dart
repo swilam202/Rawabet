@@ -1,6 +1,7 @@
 import 'package:chatapp/core/utils/constants.dart';
 import 'package:chatapp/features/auth%20screen/presntation/views/auth%20page.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,6 +15,7 @@ import 'pages/messageing page.dart';
 //import 'splash screen/presentation/views/splash page.dart';
 
 void main() async {
+  
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

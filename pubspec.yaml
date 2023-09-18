@@ -41,7 +41,8 @@ dependencies:
   firebase_storage: ^11.2.4
   get_it: ^7.6.4
   cached_network_image: ^3.2.3
-
+  firebase_messaging: ^14.6.7
+  http: ^1.1.0
 
 
 flutter_launcher_icons:
