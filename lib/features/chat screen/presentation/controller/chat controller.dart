@@ -85,11 +85,13 @@ class ChatController extends GetxController{
           ),
         );
         controller.clear();
-        scrollController.animateTo(
+        if(scrollController.hasClients){
+          scrollController.animateTo(
           0,
           duration: const Duration(milliseconds: 1500),
           curve: Curves.bounceInOut,
         );
+        }
       }
     }
 
