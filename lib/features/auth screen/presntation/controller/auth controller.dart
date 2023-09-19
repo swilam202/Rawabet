@@ -55,10 +55,28 @@ class AuthController extends GetxController {
         password: passwordController.value.text,
       );
       setup(id: emailController.value.text);
+
+
+      updateToken();
+/*String token = (await FirebaseMessaging.instance.getToken())!;
+    var querySnapshot = await FirebaseFirestore.instance.collection('users').where('id',isEqualTo: emailController.value.text).get();
+           querySnapshot.docs.forEach((doc) async {
+                await doc.reference.update(
+                  {
+                    'token': token,
+                  },
+                );
+              },);*/
+
       emailController.value.clear();
       passwordController.value.clear();
       Navigator.of(context)
           .pushReplacementNamed('home');
+            
+
+             
+          //var ref = await FirebaseFirestore.instance.collection('users').where('id',isEqualTo: emailController.value.text).limit(1).get();
+          //var res = ref.docs.first.reference.update({'token':token});
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         showSnack('Warning', 'No user found for that email.');
@@ -105,5 +123,21 @@ class AuthController extends GetxController {
   }
 
 
+  updateToken()async{
+    String? token = await FirebaseMessaging.instance.getToken();
+    var querySnapshot = await FirebaseFirestore.instance.collection('users').where('id',isEqualTo: emailController.value.text).get();
+           querySnapshot.docs.forEach((doc) async {
+                await doc.reference.update(
+                  {
+                    'token': token,
+                  },
+                );
+              },);
+          print('--------------------------------------------token------------------------------');
+          //print(res.toString());
+          print(token.toString());
+                    print('--------------------------------------------token------------------------------');
+
+  }
 
 }
