@@ -52,7 +52,11 @@ class AccountPage extends StatelessWidget {
       body: FutureBuilder(
         future: user,
         builder: (context,snapshot){
-          return SizedBox(
+          if(snapshot.connectionState == ConnectionState.waiting){
+            return LoadingState();
+          }
+          else{
+             return SizedBox(
             width: double.infinity,
             height: double.infinity,
             child: Column(
@@ -113,7 +117,9 @@ class AccountPage extends StatelessWidget {
               ],
             ),
           );
-        },
+ 
+          }
+                },
       ),
     );
   }
