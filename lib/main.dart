@@ -1,4 +1,5 @@
 import 'package:chatapp/core/utils/constants.dart';
+import 'package:chatapp/core/utils/user%20data.dart';
 import 'package:chatapp/features/auth%20screen/presntation/views/auth%20page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -32,7 +33,7 @@ FirebaseMessaging.onMessage.listen((RemoteMessage message) {
   print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
 });
 
-
+  await UserData.initSharedPreferences();
   runApp(Rawabet());
 }
 

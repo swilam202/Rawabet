@@ -54,7 +54,8 @@ class AuthController extends GetxController {
         email: emailController.value.text,
         password: passwordController.value.text,
       );
-      setup(id: emailController.value.text);
+      //setup(id: emailController.value.text);
+      UserData.setData('id',emailController.value.text);
 
 
       updateToken();
@@ -103,7 +104,7 @@ class AuthController extends GetxController {
           'image': url.value,
           'token':token!,
         });
-        setup(id: emailController.value.text);
+         UserData.setData('id',emailController.value.text);
         nameController.value.clear();
         emailController.value.clear();
         passwordController.value.clear();

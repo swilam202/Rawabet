@@ -42,7 +42,7 @@ class AccountPage extends StatelessWidget {
   AccountController accountController = Get.put(AccountController());
   Future<QuerySnapshot> user = FirebaseFirestore.instance
       .collection('users')
-      .where('id', isEqualTo: getIt.get<String>())
+      .where('id', isEqualTo: UserData.getData('id'))
       .get();
 
   @override

@@ -17,7 +17,7 @@ class DefaultDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     Future<QuerySnapshot> user = FirebaseFirestore.instance
         .collection('users')
-        .where('id', isEqualTo: getIt.get<String>())
+        .where('id', isEqualTo: UserData.getData('id'))
         .get();
     return Drawer(
       child: Column(
@@ -66,7 +66,7 @@ class DefaultDrawer extends StatelessWidget {
             onTap: () => Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => AccountPage(
-                  id: getIt.get<String>(),
+                  id: UserData.getData('id')!,
                   isSelfAccount: true,
                 ),
               ),
@@ -85,7 +85,7 @@ class DefaultDrawer extends StatelessWidget {
           ),
           ListTile(
             onTap: (){
-              getIt.unregister();
+              UserData.deleteData('id');
               Navigator.of(context).pushReplacementNamed('login');
             },
             leading: const Icon(

@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
 
     
 
-    HomePageController homePageController = Get.put(HomePageController(id: getIt.get<String>()));
+    HomePageController homePageController = Get.put(HomePageController(id:  UserData.getData('id'),));
 
    //const admin = require('firebase-admin');
     return Scaffold(
@@ -70,12 +70,17 @@ class _HomePageState extends State<HomePage> {
             FirebaseMessaging.onMessage.listen((RemoteMessage message) {
   print('Got a message whilst in the foreground!');
   print('Message data: ${message.data}');
-
   if (message.notification != null) {
     print('Message also contained a notification: ${message.notification}');
   }
 });
           }, icon: Icon(Icons.search),),*/
+          IconButton(onPressed: (){
+            print('+++++++++++++++++++++++id++++++++++++++++++++++++++++++');
+            print(UserData.getData('id'));  
+            print('+++++++++++++++++++++++id++++++++++++++++++++++++++++++');
+
+          }, icon: Icon(Icons.delete),),
         ],
       ),
       body: HomeBody(),

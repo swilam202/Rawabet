@@ -1,4 +1,5 @@
 import 'package:chatapp/core/utils/constants.dart';
+import 'package:chatapp/core/utils/user%20data.dart';
 import 'package:chatapp/pages/login%20page.dart';
 import 'package:flutter/material.dart';
 
@@ -54,10 +55,16 @@ class _SplashPageState extends State<SplashPage>
     animationController
         .forward()
         .then((_) => animationController.reverse())
-        .then((_) => navigateToAuth());
+        .then((_) => navigateToSecondPage());
   }
 
-  void navigateToAuth() {
-    Navigator.of(context).pushReplacementNamed('login');
+  void navigateToSecondPage() {
+    if(UserData.getData('id') == null){
+      Navigator.of(context).pushReplacementNamed('login');
+    }
+    else{
+      Navigator.of(context).pushReplacementNamed('home');
+    }
+    
   }
 }

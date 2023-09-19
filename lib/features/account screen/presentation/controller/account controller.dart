@@ -49,7 +49,7 @@ class AccountController extends GetxController{
           } else {
             QuerySnapshot<Map<String, dynamic>> querySnapshot =
             await users
-                .where('id', isEqualTo: getIt.get<String>())
+                .where('id', isEqualTo: UserData.getData('id'))
                 .get();
             querySnapshot.docs.forEach(
                   (doc) async {
@@ -76,7 +76,7 @@ class AccountController extends GetxController{
       }
       else {
         QuerySnapshot<Map<String, dynamic>> query = await users
-            .where('id', isEqualTo: getIt.get<String>())
+            .where('id', isEqualTo:  UserData.getData('id'),)
             .get();
         query.docs.forEach((doc) async {
           await doc.reference.update({'image': url});

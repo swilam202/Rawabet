@@ -14,7 +14,7 @@ class HomeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    HomePageController homePageController = Get.put(HomePageController(id:  getIt.get<String>()));
+    HomePageController homePageController = Get.put(HomePageController(id:   UserData.getData('id'),));
     return StreamBuilder(
       stream: homePageController.users.snapshots(),
       builder: (context, snapshot) {
