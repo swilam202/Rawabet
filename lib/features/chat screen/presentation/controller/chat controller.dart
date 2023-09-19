@@ -1,3 +1,4 @@
+import 'package:chatapp/core/utils/notifications%20services.dart';
 import 'package:chatapp/core/utils/teke%20image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -65,7 +66,7 @@ class ChatController extends GetxController{
       }
     }
 
-    void sendMessage(Map args) {
+    void sendMessage(Map args) async{
       if (controller.text.isNotEmpty) {
         messages.add(
           {
@@ -92,6 +93,8 @@ class ChatController extends GetxController{
           curve: Curves.bounceInOut,
         );
         }
+
+        NotificationsServices.pushNotification(token: /*args['token']*/'clyjr1YJS2azx4KdpRCD1b:APA91bFJ3LjQPDNiJi9YwLLNnvhLdNjQ4r1yIfAGV5YmY_K5LYLNwuK-xY9IyurAYnZ7-0AKql4yZPkqNK2oIB1JRxOEUYLDNHohj8SwYQgNt265f7tplUu6R11hyF4HHU_RBLe9YrpZ', title: args['sender'], body: controller.text,);
       }
     }
 

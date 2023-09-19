@@ -73,7 +73,7 @@ class HomePageController extends GetxController {
               contactsList[i],
               snapshot.data!.docs[j]['name'],
               snapshot.data!.docs[j]['image'],
-              //snapshot.data!.docs[j]['token'],
+              snapshot.data!.docs[j]['token'],
             ),
           );
         }
@@ -90,7 +90,7 @@ class HomePageController extends GetxController {
         'sender': id,
         'receiver': contacts[index].id,
         'image': contacts[index].image,
-        //'token':contacts[index].token,
+        'token':contacts[index].token,
       },
     );
   }

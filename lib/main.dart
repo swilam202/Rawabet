@@ -20,6 +20,19 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+  print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
+  print('Got a message whilst in the foreground!');
+  print('Message data: ${message.data.toString()}');
+
+  if (message.notification != null) {
+    print('Message also contained a notification: ${message.notification!.body.toString()}');
+  }
+  print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
+});
+
+
   runApp(Rawabet());
 }
 

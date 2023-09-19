@@ -5,6 +5,7 @@ import 'package:chatapp/core/utils/teke%20image.dart';
 import 'package:chatapp/core/utils/user%20data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
@@ -76,13 +77,13 @@ class AuthController extends GetxController {
           email: emailController.value.text,
           password: passwordController.value.text,
         );
-        String token = await NotificationsServices.getToken();
+        String? token = await FirebaseMessaging.instance.getToken();
         users.add({
           'name': nameController.value.text,
           'id': emailController.value.text,
           'contacts': [emailController.value.text],
           'image': url.value,
-          'token':token,
+          'token':token!,
         });
         setup(id: emailController.value.text);
         nameController.value.clear();
