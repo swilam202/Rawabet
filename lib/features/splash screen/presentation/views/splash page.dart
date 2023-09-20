@@ -50,7 +50,7 @@ class _SplashPageState extends State<SplashPage>
   void initAnimation() {
     animationController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 4),
+      duration: const Duration(milliseconds: 2500),
     );
     animation = CurvedAnimation(
       parent: animationController,

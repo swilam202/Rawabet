@@ -85,6 +85,8 @@ class ChatController extends GetxController{
             true,
           ),
         );
+                NotificationsServices.pushNotification(token: args['token'], title: args['senderName'], body: controller.text,);
+
         controller.clear();
         if(scrollController.hasClients){
           scrollController.animateTo(
@@ -93,8 +95,13 @@ class ChatController extends GetxController{
           curve: Curves.bounceInOut,
         );
         }
+        print('*****************************************message token *******************************');
+              print(controller.text);
+              print(args['token']);
+              
+              print('*****************************************message token *******************************');
 
-        NotificationsServices.pushNotification(token: /*args['token']*/'cXx3culUQrGle2IFjiyf_6:APA91bE7-rrymO6pLC90C3F3JL1PwaA7SNC-3RFrEK_PqtwRJSFg2fLA2JHZrGzfBSgUgJLlFQB32ix4fOs5BqVtbdmj6eCBTn5C4B5vIl08IdTIcJMBY5lAnxr7LVvIohZxoouJSTwI', title: args['senderName'], body: controller.text,);
+
       }
     }
 

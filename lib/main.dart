@@ -1,6 +1,7 @@
 import 'package:chatapp/core/utils/constants.dart';
 import 'package:chatapp/core/utils/user%20data.dart';
 import 'package:chatapp/features/auth%20screen/presntation/views/auth%20page.dart';
+import 'package:chatapp/models/message%20model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -53,28 +54,46 @@ void main() async {
                     print('--------------------------------------------token------------------------------');
 
   }
-/*
-
-    Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // If you're going to use other Firebase services in the background, such as Firestore,
-  // make sure you call `initializeApp` before using other Firebase services.
-  await Firebase.initializeApp();
-
-  
-  print('****************************************************************************');
-  print("Handling a background message: ${message.messageId}");
-}
-     void a =  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
 
-*/
+   
+      
+await Firebase.initializeApp();
 
   runApp(Rawabet());
 }
 
 
 
-class Rawabet extends StatelessWidget{
+class Rawabet extends StatefulWidget{
+  @override
+  State<Rawabet> createState() => _RawabetState();
+}
+
+class _RawabetState extends State<Rawabet> {
+
+
+   Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  //await Firebase.initializeApp();
+
+  
+  print('****************************************************************************');
+  print("Handling a background message: ${message.messageId}");
+}
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    //FirebaseMessaging.instance.o
+    FirebaseMessaging.onMessageOpenedApp.listen((event) {
+      print('6666666666666666666666666666666666666666666666666666666666666666666666');
+    });
+
+  }
+
   @override
   Widget build(BuildContext context) {
     
