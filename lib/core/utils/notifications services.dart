@@ -16,7 +16,7 @@ class NotificationsServices{
       await http.post(
       Uri.parse(url),
       body: jsonEncode({
-    "to":"fvDREm2CTTSqPTGarUR0MB:APA91bEmkonSNB7dIfhCYkIgFqLZiEj_lk18gR6wda6mrMGZjj7WnuPKHP9ozoQjlLP2z76xMSlicJm1YZJs5fhOIn2SRh7ItiUMQxFkfwWiJCF58Ehb9gQUpC9XNOV9dkcTXjFnba--",
+    "to":token,
     "notification":{
         "title":title,
         "body":body

@@ -57,7 +57,10 @@ class ChatController extends GetxController{
             args['receiver'],
             false,
           ),
-        );}
+        );
+                        NotificationsServices.pushNotification(token: args['token'], title: args['senderName'], body: 'Sent and image');
+
+        }
 
 
 
@@ -85,7 +88,12 @@ class ChatController extends GetxController{
             true,
           ),
         );
-                NotificationsServices.pushNotification(token: args['token'], title: args['senderName'], body: controller.text,);
+        print('*****************************************message token *******************************');
+        print(args['token']);
+
+        print('*****************************************message token *******************************');
+
+        NotificationsServices.pushNotification(token: args['token'], title: args['senderName'], body: controller.text,);
 
         controller.clear();
         if(scrollController.hasClients){
@@ -95,11 +103,6 @@ class ChatController extends GetxController{
           curve: Curves.bounceInOut,
         );
         }
-        print('*****************************************message token *******************************');
-              print(controller.text);
-              print(args['token']);
-              
-              print('*****************************************message token *******************************');
 
 
       }
@@ -126,6 +129,8 @@ class ChatController extends GetxController{
               false,
             ),
           );
+                                  NotificationsServices.pushNotification(token: args['token'], title: args['senderName'], body: 'Sent and image');
+
         } else {
           showToast('Something went wrong please try again');
         }
