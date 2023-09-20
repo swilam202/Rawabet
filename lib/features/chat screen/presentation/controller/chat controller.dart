@@ -94,7 +94,7 @@ class ChatController extends GetxController{
         );
         }
 
-        NotificationsServices.pushNotification(token: /*args['token']*/'clyjr1YJS2azx4KdpRCD1b:APA91bFJ3LjQPDNiJi9YwLLNnvhLdNjQ4r1yIfAGV5YmY_K5LYLNwuK-xY9IyurAYnZ7-0AKql4yZPkqNK2oIB1JRxOEUYLDNHohj8SwYQgNt265f7tplUu6R11hyF4HHU_RBLe9YrpZ', title: args['sender'], body: controller.text,);
+        NotificationsServices.pushNotification(token: /*args['token']*/'cXx3culUQrGle2IFjiyf_6:APA91bE7-rrymO6pLC90C3F3JL1PwaA7SNC-3RFrEK_PqtwRJSFg2fLA2JHZrGzfBSgUgJLlFQB32ix4fOs5BqVtbdmj6eCBTn5C4B5vIl08IdTIcJMBY5lAnxr7LVvIohZxoouJSTwI', title: args['senderName'], body: controller.text,);
       }
     }
 

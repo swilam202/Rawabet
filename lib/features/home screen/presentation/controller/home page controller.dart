@@ -81,13 +81,16 @@ class HomePageController extends GetxController {
     }
   }
 
-  void navigateToChatPage(BuildContext context, int index) {
+  void navigateToChatPage(BuildContext context, int index) async{
+    QuerySnapshot<Map<String, dynamic>> query = await FirebaseFirestore.instance.collection('users').where('id',isEqualTo: id).get();
+    String senderName = query.docs[0]['name'];
     Navigator.of(context).pushNamed(
       'texting',
       arguments: {
         'id': contacts[index].id,
         'name': contacts[index].name,
         'sender': id,
+        'senderName':senderName,
         'receiver': contacts[index].id,
         'image': contacts[index].image,
         'token':contacts[index].token,

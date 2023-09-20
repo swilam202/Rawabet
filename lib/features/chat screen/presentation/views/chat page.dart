@@ -63,7 +63,6 @@ class ChatPage extends StatelessWidget {
             return LoadingState();
           } else {
             chatController.loadMessages(snapshot, args);
-
             return Column(
               children: [
                 Expanded(

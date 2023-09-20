@@ -1,6 +1,7 @@
 import 'package:chatapp/core/utils/constants.dart';
 import 'package:chatapp/core/utils/user%20data.dart';
 import 'package:chatapp/features/auth%20screen/presntation/views/auth%20page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -21,8 +22,10 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  
+  await UserData.initSharedPreferences();
 
-FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+/*FirebaseMessaging.onMessage.listen((RemoteMessage message) {
   print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
   print('Got a message whilst in the foreground!');
   print('Message data: ${message.data.toString()}');
@@ -31,9 +34,41 @@ FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     print('Message also contained a notification: ${message.notification!.body.toString()}');
   }
   print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
-});
+});*/
 
-  await UserData.initSharedPreferences();
+
+  if(UserData.getData('id') != null){
+    String? token = await FirebaseMessaging.instance.getToken();
+    var querySnapshot = await FirebaseFirestore.instance.collection('users').where('id',isEqualTo: UserData.getData('id')).get();
+           querySnapshot.docs.forEach((doc) async {
+                await doc.reference.update(
+                  {
+                    'token': token,
+                  },
+                );
+              },);
+          print('--------------------------------------------token------------------------------');
+          //print(res.toString());
+          print(token.toString());
+                    print('--------------------------------------------token------------------------------');
+
+  }
+/*
+
+    Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp();
+
+  
+  print('****************************************************************************');
+  print("Handling a background message: ${message.messageId}");
+}
+     void a =  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+
+*/
+
   runApp(Rawabet());
 }
 
@@ -42,6 +77,8 @@ FirebaseMessaging.onMessage.listen((RemoteMessage message) {
 class Rawabet extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
+    
+
     return GetMaterialApp(
       theme: ThemeData(
           primaryColor: kLightColor,

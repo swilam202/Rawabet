@@ -1,6 +1,8 @@
 import 'package:chatapp/core/utils/constants.dart';
 import 'package:chatapp/core/utils/user%20data.dart';
 import 'package:chatapp/pages/login%20page.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 class SplashPage extends StatefulWidget {
@@ -15,10 +17,13 @@ class _SplashPageState extends State<SplashPage>
   late AnimationController animationController;
   late Animation<double> animation;
 
+
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
     initAnimation();
   }
 
@@ -57,7 +62,6 @@ class _SplashPageState extends State<SplashPage>
         .then((_) => animationController.reverse())
         .then((_) => navigateToSecondPage());
   }
-
   void navigateToSecondPage() {
     if(UserData.getData('id') == null){
       Navigator.of(context).pushReplacementNamed('login');
