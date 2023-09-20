@@ -28,7 +28,7 @@ class AuthController extends GetxController {
   String? name;
 
   RxBool secure = true.obs;
-  RxBool policiesCheck = false.obs;
+  //RxBool policiesCheck = false.obs;
   RxBool isLogin = true.obs;
   RxString url =
       'https://firebasestorage.googleapis.com/v0/b/chat-app-168d2.appspot.com/o/Rawabet%2Fuser.png?alt=media&token=bf630756-cc16-409b-b41f-bb9a91bd33ee'
@@ -41,8 +41,13 @@ class AuthController extends GetxController {
 
 
 
-  void newImage(ImageSource source, BuildContext context) async {
-    url.value = await takeImage(source) ?? '';
+   newImage(ImageSource source, BuildContext context) async {
+    String? data = await takeImage(source);
+    if(data != null){
+      url.value = data;
+    }
+  
+    
 
       Navigator.of(context).pop();
     }
@@ -58,7 +63,7 @@ class AuthController extends GetxController {
       UserData.setData('id',emailController.value.text);
 
 
-      updateToken();
+      //()=>updateToken();
 /*String token = (await FirebaseMessaging.instance.getToken())!;
     var querySnapshot = await FirebaseFirestore.instance.collection('users').where('id',isEqualTo: emailController.value.text).get();
            querySnapshot.docs.forEach((doc) async {
@@ -89,8 +94,7 @@ class AuthController extends GetxController {
 
   void signupFunction(BuildContext context,CollectionReference users) async {
     try {
-      if (key.value.currentState!.validate() &&
-          policiesCheck.value == true) {
+      if (key.value.currentState!.validate()) {
 
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.value.text,
@@ -100,7 +104,7 @@ class AuthController extends GetxController {
         users.add({
           'name': nameController.value.text,
           'id': emailController.value.text,
-          'contacts': [emailController.value.text],
+          'contacts': [],
           'image': url.value,
           'token':token!,
         });
@@ -112,8 +116,9 @@ class AuthController extends GetxController {
         
         Navigator.of(context)
             .pushReplacementNamed('home');
-      } else
-        return;
+      } //else{
+        //showSnack('Warning', 'plesaszafasdfasdf');
+     // }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
         showSnack('Warning', 'The account already exists for that email.');
@@ -124,7 +129,7 @@ class AuthController extends GetxController {
   }
 
 
-  updateToken()async{
+ /*Future<void> updateToken()async{
     String? token = await FirebaseMessaging.instance.getToken();
     var querySnapshot = await FirebaseFirestore.instance.collection('users').where('id',isEqualTo: emailController.value.text).get();
            querySnapshot.docs.forEach((doc) async {
@@ -139,6 +144,6 @@ class AuthController extends GetxController {
           print(token.toString());
                     print('--------------------------------------------token------------------------------');
 
-  }
+  }*/
 
 }

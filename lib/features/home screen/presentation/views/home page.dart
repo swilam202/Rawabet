@@ -5,6 +5,7 @@ import 'package:chatapp/core/utils/user%20data.dart';
 import 'package:chatapp/core/widgets/custom%20text%20field.dart';
 import 'package:chatapp/core/widgets/loading%20state.dart';
 import 'package:chatapp/features/home%20screen/presentation/views/widgets/home%20body.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -30,15 +31,32 @@ class _HomePageState extends State<HomePage> {
     // TODO: implement initState
     super.initState();
     
-            FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+     /*       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
   print('Got a message whilst in the foreground!');
   print('Message data: ${message.data}');
 
   if (message.notification != null) {
     print('Message also contained a notification: ${message.notification}');
   }
-});
+});*/
+updateToken();
           
+  }
+Future<void> updateToken()async{
+    String? token = await FirebaseMessaging.instance.getToken();
+    var querySnapshot = await FirebaseFirestore.instance.collection('users').where('id',isEqualTo: UserData.getData('id')).get();
+           querySnapshot.docs.forEach((doc) async {
+                await doc.reference.update(
+                  {
+                    'token': token,
+                  },
+                );
+              },);
+          print('--------------------------------------------token------------------------------');
+          //print(res.toString());
+          print(token.toString());
+                    print('--------------------------------------------token------------------------------');
+
   }
 
 

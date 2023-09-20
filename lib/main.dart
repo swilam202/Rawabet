@@ -38,7 +38,7 @@ void main() async {
 });*/
 
 
-  if(UserData.getData('id') != null){
+  /*if(UserData.getData('id') != null){
     String? token = await FirebaseMessaging.instance.getToken();
     var querySnapshot = await FirebaseFirestore.instance.collection('users').where('id',isEqualTo: UserData.getData('id')).get();
            querySnapshot.docs.forEach((doc) async {
@@ -53,12 +53,12 @@ void main() async {
           print(token.toString());
                     print('--------------------------------------------token------------------------------');
 
-  }
+  }*/
 
 
    
       
-await Firebase.initializeApp();
+
 
   runApp(Rawabet());
 }

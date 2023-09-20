@@ -71,7 +71,7 @@ class AuthBody extends StatelessWidget {
                       )
                     : const SizedBox(),
                 TextFieldSection(),
-                authController.isLogin.value == false
+                /*authController.isLogin.value == false
                     ? Row(
                         children: [
                           Checkbox(
@@ -91,7 +91,7 @@ class AuthBody extends StatelessWidget {
                           ),
                         ],
                       )
-                    : const SizedBox(),
+                    : const SizedBox(),*/
                 GestureDetector(
                   onTap: () => authController.isLogin.value =
                       !authController.isLogin.value,

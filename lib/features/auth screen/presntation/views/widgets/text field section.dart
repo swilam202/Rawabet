@@ -13,7 +13,8 @@ class TextFieldSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AuthController controller = Get.put(AuthController());
-    return Column(
+   return Obx(() {
+       return Column(
       children: [
 
         controller.isLogin.value == false
@@ -91,5 +92,6 @@ class TextFieldSection extends StatelessWidget {
 
       ],
     );
-  }
+
+   });  }
 }
