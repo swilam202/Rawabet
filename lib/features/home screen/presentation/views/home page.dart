@@ -16,7 +16,7 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
- HomePageController homePageController = Get.put(HomePageController(
+HomePageController homePageController = Get.put(HomePageController(
   id: UserData.getData('id'),
 ));
 
@@ -25,14 +25,12 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    //homePageController.loadContacts(snapshot)
-    updateToken();
 
+    updateToken();
   }
 
   Future<void> updateToken() async {
     String? token = await FirebaseMessaging.instance.getToken();
-
 
     var querySnapshot = await FirebaseFirestore.instance
         .collection('users')
@@ -51,13 +49,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Rawabet'),
         centerTitle: true,
-
       ),
       body: const HomeBody(),
       floatingActionButton: FloatingActionButton(

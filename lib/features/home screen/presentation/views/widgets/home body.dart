@@ -16,8 +16,8 @@ class HomeBody extends StatelessWidget {
     HomePageController homePageController = Get.put(HomePageController(
       id: UserData.getData('id'),
     ));
-    Stream<QuerySnapshot<Map<String, dynamic>>> users = FirebaseFirestore.instance.collection('users').snapshots();
-
+    Stream<QuerySnapshot<Map<String, dynamic>>> users =
+        FirebaseFirestore.instance.collection('users').snapshots();
     return StreamBuilder(
       stream: users,
       builder: (context, snapshot) {
@@ -49,7 +49,6 @@ class HomeBody extends StatelessWidget {
                     backgroundColor: Colors.transparent,
                     backgroundImage: CachedNetworkImageProvider(
                       homePageController.contacts[index].image,
-
                     ),
                   ),
                   title: Text(

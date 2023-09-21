@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/models/contacts.dart';
+import '../../../../core/utils/user data.dart';
 import '../../../../core/widgets/new item.dart';
 import '../../../../core/widgets/snack bar.dart';
 
@@ -21,7 +22,7 @@ class HomePageController extends GetxController {
 
   Future<void> addContacts(BuildContext context) async {
     CollectionReference<Map<String, dynamic>> users =
-    FirebaseFirestore.instance.collection('users');
+        FirebaseFirestore.instance.collection('users');
     QuerySnapshot<Map<String, dynamic>> querySnapshot =
         await users.where('id', isEqualTo: id).get();
     QuerySnapshot<Map<String, dynamic>> userSnapshot =
@@ -32,11 +33,10 @@ class HomePageController extends GetxController {
       showSnack('Warning',
           'The user you are trying to add already exists on your contacts');
     }
-    if (querySnapshot.docs[0]['id'] == contactController.value.text) {
-      showSnack('Warning',
-          'The user you are trying to add is your account');
+    else if (querySnapshot.docs[0]['id'] == contactController.value.text) {
+      showSnack('Warning', 'The user you are trying to add is your account');
     }
-    if (userSnapshot.size > 0) {
+    else if (userSnapshot.size > 0) {
       querySnapshot.docs.forEach((doc) async {
         await doc.reference.update(
           {
@@ -52,8 +52,9 @@ class HomePageController extends GetxController {
 
   void loadContacts(
       AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-    contacts.value = [];
-    contactsList.value = [];
+    contacts.value.clear();
+    contactsList.value.clear();
+    id = UserData.getData('id');
     for (int i = 0; i < snapshot.data!.docs.length; i++) {
       if (snapshot.data!.docs[i]['id'] == id) {
         contactsList.value = snapshot.data!.docs[i]['contacts'];
