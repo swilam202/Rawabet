@@ -1,114 +1,43 @@
-import 'package:chatapp/core/utils/constants.dart';
-import 'package:chatapp/core/utils/user%20data.dart';
-import 'package:chatapp/features/auth%20screen/presntation/views/auth%20page.dart';
-import 'package:chatapp/models/message%20model.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'core/utils/constants.dart';
+import 'core/utils/user data.dart';
+import 'features/auth screen/presntation/views/auth page.dart';
 import 'features/chat screen/presentation/views/chat page.dart';
 import 'features/home screen/presentation/views/home page.dart';
 import 'features/splash screen/presentation/views/splash page.dart';
 import 'firebase_options.dart';
-import 'pages/home page.dart';
-import 'pages/login page.dart';
-import 'pages/messageing page.dart';
-//import 'splash screen/presentation/views/splash page.dart';
 
 void main() async {
-  
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  
+
   await UserData.initSharedPreferences();
 
-/*FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-  print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
-  print('Got a message whilst in the foreground!');
-  print('Message data: ${message.data.toString()}');
-
-  if (message.notification != null) {
-    print('Message also contained a notification: ${message.notification!.body.toString()}');
-  }
-  print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
-});*/
-
-
-  /*if(UserData.getData('id') != null){
-    String? token = await FirebaseMessaging.instance.getToken();
-    var querySnapshot = await FirebaseFirestore.instance.collection('users').where('id',isEqualTo: UserData.getData('id')).get();
-           querySnapshot.docs.forEach((doc) async {
-                await doc.reference.update(
-                  {
-                    'token': token,
-                  },
-                );
-              },);
-          print('--------------------------------------------token------------------------------');
-          //print(res.toString());
-          print(token.toString());
-                    print('--------------------------------------------token------------------------------');
-
-  }*/
-
-
-   
-      
-
-
-  runApp(Rawabet());
+  runApp(const Rawabet());
 }
 
-
-
-class Rawabet extends StatefulWidget{
-  @override
-  State<Rawabet> createState() => _RawabetState();
-}
-
-class _RawabetState extends State<Rawabet> {
-
-
-   Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // If you're going to use other Firebase services in the background, such as Firestore,
-  // make sure you call `initializeApp` before using other Firebase services.
-  //await Firebase.initializeApp();
-
-  
-  print('****************************************************************************');
-  print("Handling a background message: ${message.messageId}");
-}
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    //FirebaseMessaging.instance.o
-    FirebaseMessaging.onMessageOpenedApp.listen((event) {
-      print('6666666666666666666666666666666666666666666666666666666666666666666666');
-    });
-
-  }
+class Rawabet extends StatelessWidget {
+  const Rawabet({super.key});
 
   @override
   Widget build(BuildContext context) {
-    
-
     return GetMaterialApp(
       theme: ThemeData(
-          primaryColor: kLightColor,
-          appBarTheme: const AppBarTheme(
-            backgroundColor: kDarkColor,
-          ),),
+        primaryColor: kLightColor,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: kDarkColor,
+        ),
+      ),
       debugShowCheckedModeBanner: false,
-      home: SplashPage(),
+      home: const SplashPage(),
       routes: {
         'texting': (context) => ChatPage(),
-        'home': (context) => HomePage(),
+        'home': (context) => const HomePage(),
         'login': (context) => AuthPage(),
       },
     );

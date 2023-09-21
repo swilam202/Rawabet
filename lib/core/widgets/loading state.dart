@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../utils/constants.dart';
 
-
 class LoadingState extends StatelessWidget {
   const LoadingState({super.key});
 

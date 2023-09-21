@@ -1,27 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chatapp/core/utils/constants.dart';
-import 'package:chatapp/core/widgets/loading%20state.dart';
-import 'package:chatapp/features/account%20screen/presentation/views/account%20page.dart';
-import 'package:chatapp/features/chat%20screen/presentation/controller/chat%20controller.dart';
-import 'package:path/path.dart';
-import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 
-import '../../../../componenets/chat bubble.dart';
-import '../../../../componenets/toast.dart';
-import '../../../../models/message model.dart';
-
-// import '../componenets/chat bubble.dart';
-// import '../componenets/toast.dart';
-// import '../models/message model.dart';
-// import 'Account.dart';
+import '../../../../core/utils/constants.dart';
+import '../../../../core/widgets/chat bubble.dart';
+import '../../../../core/widgets/loading state.dart';
+import '../../../account screen/presentation/views/account page.dart';
+import '../controller/chat controller.dart';
 
 class ChatPage extends StatelessWidget {
-  ChatController chatController = ChatController();
+  ChatPage({super.key});
+
+  final ChatController chatController = ChatController();
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +49,7 @@ class ChatPage extends StatelessWidget {
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return LoadingState();
+            return const LoadingState();
           } else {
             chatController.loadMessages(snapshot, args);
             return Column(

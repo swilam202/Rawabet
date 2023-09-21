@@ -1,12 +1,15 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import '../../componenets/snack bar.dart';
 import 'custom text field.dart';
 
-
 class AddNewItem extends StatelessWidget {
-  const AddNewItem({super.key,required this.label,required this.onPressed,required this.controller,required this.hint,});
+  const AddNewItem({
+    super.key,
+    required this.label,
+    required this.onPressed,
+    required this.controller,
+    required this.hint,
+  });
 
   final Function() onPressed;
   final TextEditingController controller;

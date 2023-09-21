@@ -1,17 +1,17 @@
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chatapp/core/utils/constants.dart';
-import 'package:chatapp/core/utils/user%20data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import '../core/widgets/loading state.dart';
-import '../features/account screen/presentation/views/account page.dart';
-import '../pages/Account.dart';
+import '../../features/account screen/presentation/views/account page.dart';
+import '../utils/constants.dart';
+import '../utils/user data.dart';
+import 'loading state.dart';
 
 class DefaultDrawer extends StatelessWidget {
-  DefaultDrawer({super.key});
-
-
+  const DefaultDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +27,10 @@ class DefaultDrawer extends StatelessWidget {
             width: double.infinity,
             child: FutureBuilder(
               future: user,
-              builder: (context,snapshot){
+              builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return LoadingState();
-                }
-                else{
+                  return const LoadingState();
+                } else {
                   return Stack(
                     alignment: AlignmentDirectional.bottomStart,
                     children: [
@@ -41,8 +40,9 @@ class DefaultDrawer extends StatelessWidget {
                         child: CachedNetworkImage(
                           fit: BoxFit.fill,
                           imageUrl: snapshot.data!.docs[0]['image'],
-                          placeholder: (context, url) => LoadingState(),
-                          errorWidget: (context, url, error) => Icon(Icons.error),
+                          placeholder: (context, url) => const LoadingState(),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
                         ),
                       ),
                       Padding(
@@ -59,7 +59,7 @@ class DefaultDrawer extends StatelessWidget {
                     ],
                   );
                 }
-              } ,
+              },
             ),
           ),
           ListTile(
@@ -84,8 +84,12 @@ class DefaultDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
-            onTap: (){
+            onTap: () async{
               UserData.deleteData('id');
+              final directory = await getTemporaryDirectory();
+              if (directory.existsSync()) {
+                directory.deleteSync(recursive: true);
+              }
               Navigator.of(context).pushReplacementNamed('login');
             },
             leading: const Icon(

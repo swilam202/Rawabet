@@ -1,22 +1,13 @@
-import 'package:chatapp/componenets/default%20drawer.dart';
-import 'package:chatapp/core/utils/constants.dart';
-import 'package:chatapp/core/utils/notifications%20services.dart';
-import 'package:chatapp/core/utils/user%20data.dart';
-import 'package:chatapp/core/widgets/custom%20text%20field.dart';
-import 'package:chatapp/core/widgets/loading%20state.dart';
-import 'package:chatapp/features/home%20screen/presentation/views/widgets/home%20body.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-//import '../../../../controllers/home page controller.dart';
-import '../../../../models/contacts.dart';
+import '../../../../core/utils/constants.dart';
+import '../../../../core/utils/user data.dart';
+import '../../../../core/widgets/default drawer.dart';
 import '../controller/home page controller.dart';
-
-// import '../componenets/default drawer.dart';
-// import '../controllers/home page controller.dart';
-// import '../models/contacts.dart';
+import 'widgets/home body.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -25,91 +16,58 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+ HomePageController homePageController = Get.put(HomePageController(
+  id: UserData.getData('id'),
+));
+
 class _HomePageState extends State<HomePage> {
-@override
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    
-     /*       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-  print('Got a message whilst in the foreground!');
-  print('Message data: ${message.data}');
+    //homePageController.loadContacts(snapshot)
+    updateToken();
 
-  if (message.notification != null) {
-    print('Message also contained a notification: ${message.notification}');
   }
-});*/
-updateToken();
-          
-  }
-Future<void> updateToken()async{
+
+  Future<void> updateToken() async {
     String? token = await FirebaseMessaging.instance.getToken();
-    var querySnapshot = await FirebaseFirestore.instance.collection('users').where('id',isEqualTo: UserData.getData('id')).get();
-           querySnapshot.docs.forEach((doc) async {
-                await doc.reference.update(
-                  {
-                    'token': token,
-                  },
-                );
-              },);
-          print('--------------------------------------------token------------------------------');
-          //print(res.toString());
-          print(token.toString());
-                    print('--------------------------------------------token------------------------------');
 
+
+    var querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where('id', isEqualTo: UserData.getData('id'))
+        .get();
+    querySnapshot.docs.forEach(
+      (doc) async {
+        await doc.reference.update(
+          {
+            'token': token,
+          },
+        );
+      },
+    );
   }
-
 
   @override
   Widget build(BuildContext context) {
 
-    
 
-    HomePageController homePageController = Get.put(HomePageController(id:  UserData.getData('id'),));
-
-   //const admin = require('firebase-admin');
     return Scaffold(
       appBar: AppBar(
         title: const Text('Rawabet'),
         centerTitle: true,
-        actions: [
-          IconButton(onPressed: ()async{
-            FirebaseMessaging messaging = FirebaseMessaging.instance;
-            
-    print('+++++++++++++++++++++++++++++++++++++++++++++++++');
-    print(await messaging.getToken());
-    print('+++++++++++++++++++++++++++++++++++++++++++++++++');
-          }, icon: Icon(Icons.add),),
-         /* IconButton(onPressed: ()async{
-            NotificationsServices.sendNotification();
-            setState(() {
-              
-            });
-            FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-  print('Got a message whilst in the foreground!');
-  print('Message data: ${message.data}');
-  if (message.notification != null) {
-    print('Message also contained a notification: ${message.notification}');
-  }
-});
-          }, icon: Icon(Icons.search),),*/
-          IconButton(onPressed: (){
-            print('+++++++++++++++++++++++id++++++++++++++++++++++++++++++');
-            print(UserData.getData('id'));  
-            print('+++++++++++++++++++++++id++++++++++++++++++++++++++++++');
 
-          }, icon: Icon(Icons.delete),),
-        ],
       ),
-      body: HomeBody(),
+      body: const HomeBody(),
       floatingActionButton: FloatingActionButton(
         backgroundColor: kLightColor,
         onPressed: () {
-         homePageController.addContactBottomSheet(context);
+          homePageController.addContactBottomSheet(context);
         },
         child: const Icon(Icons.message),
       ),
-      drawer: DefaultDrawer(),
+      drawer: const DefaultDrawer(),
     );
   }
 }

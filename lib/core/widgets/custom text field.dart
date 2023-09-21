@@ -23,16 +23,13 @@ class CustomTextField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
       child: TextFormField(
-
         obscureText: obscure ?? false,
         controller: controller,
         obscuringCharacter: '*',
         validator: valid,
         decoration: InputDecoration(
-
           hintText: hintText,
           labelText: labelText,
-
           suffixIcon: icon,
           fillColor: const Color.fromRGBO(160, 211, 254, 0.2),
           filled: true,

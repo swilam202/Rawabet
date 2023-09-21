@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class CustomQRCode extends StatelessWidget {
-  CustomQRCode(this.url, {super.key});
+  const CustomQRCode(this.url, {super.key});
 
-  String url;
+  final String url;
 
   @override
   Widget build(BuildContext context) {

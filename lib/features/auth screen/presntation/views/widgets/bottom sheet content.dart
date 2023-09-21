@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
-
-import '../../controller/auth controller.dart';
 
 class ImageBottomSheet extends StatelessWidget {
-  ImageBottomSheet({
+  const ImageBottomSheet({
     super.key,
     required this.cameraFunction,
     required this.galleryFunction,
   });
 
-  Function() cameraFunction;
-  Function() galleryFunction;
+  final Function() cameraFunction;
+  final Function() galleryFunction;
 
   @override
   Widget build(BuildContext context) {
